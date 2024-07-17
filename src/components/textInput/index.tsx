@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, forwardRef, useRef, useState, Ref } from 'react';
 import styled from 'styled-components';
 
 type Props = {
@@ -11,39 +11,35 @@ type Props = {
   disabled?: boolean;
 };
 
-const TextInput = ({
-  className,
-  placeholder,
-  onChange,
-  onFocus,
-  onBlur,
-  value = '',
-  disabled = false,
-}: Props) => {
-  const [text, setText] = useState(value);
+const TextInput = forwardRef<HTMLInputElement, Props>(
+  ({ className, placeholder, onChange, onFocus, onBlur, value = '', disabled = false }, ref) => {
+    const [text, setText] = useState(value);
 
-  const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
-    const value = ev.target.value;
-    setText(value);
-    onChange({ value });
-  };
+    const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
+      const value = ev.target.value;
+      setText(value);
+      onChange({ value });
+    };
 
-  return (
-    <StyledInput
-      type="text"
-      value={text}
-      className={className}
-      placeholder={placeholder}
-      onChange={handleChange}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      disabled={disabled}
-    />
-  );
-};
+    return (
+      <StyledInput
+        ref={ref as Ref<HTMLInputElement>}
+        type="text"
+        value={text}
+        className={className}
+        placeholder={placeholder}
+        onChange={handleChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        disabled={disabled}
+      />
+    );
+  },
+);
 
 const StyledInput = styled.input`
-  width: 100%;
+  width: 320px;
+  height: 48px;
   padding: 10px;
   border: 1px solid var(--default-border-color);
   border-radius: 4px;
