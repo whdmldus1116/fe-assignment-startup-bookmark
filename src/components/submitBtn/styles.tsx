@@ -2,11 +2,12 @@ import styled from 'styled-components';
 
 export const SubmitBtnStyle = styled.button`
   width: 320px;
-  height: 48px;
+  height: 40px;
   border-radius: 5px;
   background-color: #006eff;
   color: #fefefe;
   border: none;
+  margin-top: 24px;
   cursor: pointer;
 `;
 
