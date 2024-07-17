@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import normalize from 'emotion-normalize';
 import { Global } from '@emotion/react';
-import GlobalStyles from './globalStyles';
+import GlobalStyles from './styles/globalStyles';
 import { reset } from './styles/reset';
 
 //
