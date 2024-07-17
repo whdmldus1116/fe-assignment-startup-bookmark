@@ -14,6 +14,11 @@ const GlobalStyles = createGlobalStyle`
 
     --default-text-color: #222222;
     --Divider-color: #E1E1E1;
+    
+    --title-text-color: #222222;
+    --label-text-color: #424242;
+
+    --hr-color: #D6DAE0;
   }
 `;
 
