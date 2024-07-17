@@ -13,6 +13,7 @@ const GlobalStyles = createGlobalStyle`
     --inactive-button-color: #B8D7FF;
 
     --default-text-color: #222222;
+    --Divider-color: #E1E1E1;
   }
 `;
 

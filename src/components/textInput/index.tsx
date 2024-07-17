@@ -38,9 +38,9 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
 );
 
 const StyledInput = styled.input`
-  width: 320px;
-  height: 48px;
-  padding: 10px;
+  width: 295px;
+  height: 25px;
+  padding: 12px;
   border: 1px solid var(--default-border-color);
   border-radius: 4px;
   color: black;
@@ -50,9 +50,6 @@ const StyledInput = styled.input`
   &:focus {
     border-color: var(--focus-border-color);
     color: black;
-  }
-  &:disabled {
-    background-color: #f0f0f0;
   }
 `;
 
