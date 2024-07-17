@@ -2,6 +2,7 @@
 
 ## Getting started
 ```sh
+yarn install
 yarn dev
 ```
 
