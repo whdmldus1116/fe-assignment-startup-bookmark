@@ -45,7 +45,7 @@ const AuthInput = ({
         disabled={disabled}
         error={error}
       />
-      {error && <ErrorIcon src="/src/assets/20.png" />}
+      {error && <ErrorIcon src="/src/assets/error.png" />}
       <ErrorMessage error={error} textColor={textColor}>
         {error ? errorMessage : ''}
       </ErrorMessage>
