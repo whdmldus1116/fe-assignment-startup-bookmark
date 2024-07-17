@@ -45,10 +45,15 @@ const TextInput = ({
 const StyledInput = styled.input`
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--default-border-color);
   border-radius: 4px;
+  color: black;
+  &::placeholder {
+    color: var(--default-border-color);
+  }
   &:focus {
-    border-color: #007bff;
+    border-color: var(--focus-border-color);
+    color: black;
   }
   &:disabled {
     background-color: #f0f0f0;
