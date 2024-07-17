@@ -5,43 +5,50 @@ import {
   UserName,
   ProfileIcon,
   MenuIcon,
+  CloseIcon,
 } from './styles';
-import menuImg from '@/assets/menu.png';
+import menuIcon from '../../assets/menu.png';
+import closeIcon from '../../assets/close.png';
 
 type Props = {
   isLoggedIn: boolean;
+  currentPath: string;
   username?: string;
 };
 
-const Header = ({ isLoggedIn, username }: Props) => {
-  const handleLogin = () => {
-    window.location.href = '/login';
+const Header = ({ isLoggedIn, currentPath, username }: Props) => {
+  const handleNavigation = (path: string) => {
+    window.location.href = path;
   };
 
-  const handleSignup = () => {
-    window.location.href = '/signup';
+  const navigateToBack = () => {
+    window.history.back();
   };
 
   return (
     <HeaderContainer>
       {isLoggedIn ? (
-        <>
-          <ProfileIcon>{username?.slice(0, 1)}</ProfileIcon>
-          <UserName>{username}</UserName>
-          <MenuIcon src={menuImg} alt="menu icon" />
-        </>
+        currentPath === '/menu' ? (
+          <CloseIcon src={closeIcon} alt="close icon" onClick={navigateToBack} />
+        ) : (
+          <>
+            <ProfileIcon>{username?.slice(0, 1)}</ProfileIcon>
+            <UserName>{username}</UserName>
+            <MenuIcon src={menuIcon} alt="menu icon" onClick={() => handleNavigation('/menu')} />
+          </>
+        )
       ) : (
         <>
           <HeaderActionButton
-            onClick={handleLogin}
-            style={{ color: window.location.pathname === '/login' ? '#006eff' : '#616161' }}
+            onClick={() => handleNavigation('/login')}
+            active={currentPath === '/login'}
           >
             로그인
           </HeaderActionButton>
           <Divider>|</Divider>
           <HeaderActionButton
-            onClick={handleSignup}
-            style={{ color: window.location.pathname === '/signup' ? '#006eff' : '#616161' }}
+            onClick={() => handleNavigation('/signup')}
+            active={currentPath === '/signup'}
           >
             회원가입
           </HeaderActionButton>

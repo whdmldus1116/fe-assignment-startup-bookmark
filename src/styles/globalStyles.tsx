@@ -11,6 +11,8 @@ const GlobalStyles = createGlobalStyle`
 
     --active-button-color: #006eff;
     --inactive-button-color: #B8D7FF;
+
+    --default-text-color: #222222;
   }
 `;
 
