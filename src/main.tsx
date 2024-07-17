@@ -2,19 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import normalize from 'emotion-normalize';
 import { css, Global } from '@emotion/react';
+import GlobalStyles from './globalStyles';
+
 //
 import App from './App';
 import initializeMockupWorker from '@/__mock__';
 
-const GlobalStyles = css`
-  ${normalize}
-`;
-
 initializeMockupWorker().then(() => {
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-      <Global styles={GlobalStyles} />
+      <GlobalStyles />
       <App />
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 });
