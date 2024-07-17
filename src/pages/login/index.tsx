@@ -12,7 +12,7 @@ import {
   SubmitBtnWrapper,
   SignUpBtnWrapper,
 } from './styles';
-import { SubmitBtn } from '../../components/submitBtn';
+import { GoToSignUpBtn, SubmitBtn } from '../../components/submitBtn';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -67,19 +67,6 @@ const LoginScreen = () => {
     }
   };
 
-  const handleSignUp = () => {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = storedUsers.find(
-      (user: { email: string; password: string }) =>
-        user.email === email && user.password === password,
-    );
-    if (user) {
-      navigate('/startup-search');
-    } else {
-      alert('아이디/비밀번호를 확인해주세요');
-    }
-  };
-
   return (
     <>
       <Header isLoggedIn={false} currentPath={window.location.pathname} username={'유니콘'} />
@@ -116,7 +103,7 @@ const LoginScreen = () => {
         <LineText text={'아직 회원이 아니신가요?'} textLine={false} />
 
         <SignUpBtnWrapper>
-          <SubmitBtn type="signup" isActive={isButtonDisabled} onClick={handleSignUp} />
+          <GoToSignUpBtn />
         </SignUpBtnWrapper>
       </Container>
     </>
