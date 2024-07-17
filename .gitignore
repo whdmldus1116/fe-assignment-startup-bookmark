@@ -106,3 +106,14 @@ dist
 # IDEA
 .idea
 .vscode
+
+### react ###
+.DS_*
+**/*.backup.*
+**/*.back.*
+
+*.sublime*
+
+psd
+thumb
+sketch
