@@ -12,6 +12,7 @@ type Props = {
   error?: boolean;
   errorMessage?: string;
   textColor?: string;
+  isPhoneNumber?: boolean;
 };
 
 const AuthInput = ({
@@ -25,6 +26,7 @@ const AuthInput = ({
   error = false,
   errorMessage = '',
   textColor = 'var(--focus-border-color)',
+  isPhoneNumber = false,
 }: Props) => {
   const [text, setText] = useState(value);
 
@@ -44,6 +46,7 @@ const AuthInput = ({
         value={text}
         disabled={disabled}
         error={error}
+        isPhoneNumber={isPhoneNumber}
       />
       {error && <ErrorIcon src="/src/assets/error.png" />}
       <ErrorMessage error={error} textColor={textColor}>
