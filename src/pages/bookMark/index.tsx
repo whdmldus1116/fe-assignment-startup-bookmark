@@ -1,32 +1,100 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { PageContainer, Title, CardGrid } from './styles';
 import Header from '../../components/header';
 import Card from '../../components/card';
 
-const BookMark = () => {
-  //TODO: api 연결필요
-  const startups = [
-    {
-      id: '02',
-      tag: '생산성',
-      description:
-        '주식회사 하프스는 빅데이터 기술을 기반으로 스타트업과 투자자 연결하는 온라인 플...',
-      bookmark: true,
-    },
-  ];
+const BookmarkScreen = () => {
+  const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [username, setUsername] = useState<string>('');
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('/api/user', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    const fetchBookmarkedStartups = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('/api/startups/bookmark', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const { companies: data } = response.data;
+        setBookmarkedStartups(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching bookmarked startups:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+    fetchBookmarkedStartups();
+  }, []);
+
+  const handleToggleBookmark = async (id: string) => {
+    try {
+      const token = localStorage.getItem('token');
+
+      await axios.post(
+        '/api/startups/bookmark',
+        { id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const response = await axios.get('/api/startups/bookmark', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const { companies: data } = response.data;
+      setBookmarkedStartups(data);
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-      <Header isLoggedIn={true} currentPath="/" username={'꿍꿍꿍'} />
+      <Header isLoggedIn={true} currentPath="/bookmark" username={username} />
       <PageContainer>
-        <Title>스타트업 리스트</Title>
+        <Title>북마크</Title>
         <CardGrid>
-          {startups.map((startup) => (
+          {bookmarkedStartups.map((startup: any) => (
             <Card
               key={startup.id}
               id={startup.id}
+              title={startup.title}
               tag={startup.tag}
               description={startup.description}
-              bookmark={startup.bookmark}
+              thumbnailImageUrl={startup.thumbnailImageUrl}
+              thumbnailFallbackColor={startup.thumbnailFallbackColor}
+              bookmark={true}
+              onBookmark={() => handleToggleBookmark(startup.id)}
             />
           ))}
         </CardGrid>
@@ -35,4 +103,4 @@ const BookMark = () => {
   );
 };
 
-export default BookMark;
+export default BookmarkScreen;

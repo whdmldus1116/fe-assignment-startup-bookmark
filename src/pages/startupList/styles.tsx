@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const PageContainer = styled.div`
   max-width: 1250px;
-  margin: 0 auto;
+  margin: 0 20px;
 `;
 
 export const Title = styled.h1`
@@ -14,6 +14,7 @@ export const Title = styled.h1`
 
 export const CardGrid = styled.div`
   display: grid;
+  place-items: center;
   grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
   row-gap: 60px;
   column-gap: 20px;

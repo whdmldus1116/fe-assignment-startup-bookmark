@@ -8,35 +8,43 @@ import {
   Description,
   BookmarkIcon,
 } from './styles';
-import backgroundImage from '../../assets/background.png';
 import bookMarkNone from '../../assets/bookMarkNone.png';
 import bookMark from '../../assets/bookMark.png';
 
 type Props = {
   id: string;
-  tag?: string;
-  description?: string;
+  title: string;
+  tag: string;
+  description: string;
+  thumbnailImageUrl: string;
+  thumbnailFallbackColor: string;
   bookmark: boolean;
+  onBookmark: () => void;
 };
 
 const Card = ({
   id,
-  tag = '생산성',
-  description = '주식회사 하프스는 빅데이터 기술을 기반으로 스타트업과 투자자 연결하는 온라인 플...',
+  title,
+  tag,
+  description,
+  thumbnailImageUrl,
+  thumbnailFallbackColor,
   bookmark,
+  onBookmark,
 }: Props) => {
   const [isBookmarked, setIsBookmarked] = useState(bookmark);
 
-  const handleBookmarkClick = () => {
+  const handleBookmarkClick = async () => {
     setIsBookmarked(!isBookmarked);
+    onBookmark(); // 부모 컴포넌트로 북마크 이벤트 전달
   };
 
   return (
     <CardWrapper>
       <Tag>{tag}</Tag>
-      <Image src={backgroundImage} alt="Background" />
+      <Image src={thumbnailImageUrl} alt="Background" fallbackColor={thumbnailFallbackColor} />
       <ContentWrapper>
-        <Title>{id}파트너스</Title>
+        <Title>{title}</Title>
         <Description>{description}</Description>
         <BookmarkIcon
           src={isBookmarked ? bookMark : bookMarkNone}
