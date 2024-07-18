@@ -1,3 +1,4 @@
+import { TitleStyle } from '../components/title/styles';
 import styled from 'styled-components';
 
 const MenuPage = () => {
@@ -8,7 +9,8 @@ const MenuPage = () => {
 
   return (
     <MenuContainer>
-      <Title>메뉴</Title>
+      <TitleStyle>메뉴</TitleStyle>
+      <hr style={{ width: '100%', borderBottom: '1px solid #e8ecf2' }} />
       {menuItems.map((item, index) => (
         <Item key={index} href={item.link}>
           <span>{item.name}</span>
@@ -23,19 +25,6 @@ const MenuContainer = styled.div`
   flex-direction: column;
   margin-top: 105px;
   align-items: center;
-`;
-
-const Title = styled.h1`
-  font-size: 30px;
-  font-weight: bold;
-  line-height: 40px;
-  letter-spacing: -0.2%;
-  color: var(--default-text-color);
-
-  width: 100%;
-  text-align: center;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e8ecf2;
 `;
 
 const Item = styled.a`
