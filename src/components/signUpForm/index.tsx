@@ -31,19 +31,11 @@ const SignUpForm = () => {
   const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
 
-  const [formattedPhoneNumber, setFormattedPhoneNumber] = useState('');
-
   const handleChange = (field: string) => (value: string | string[]) => {
     setForm((prevForm) => ({
       ...prevForm,
       [field]: value,
     }));
-
-    let formattedPhoneNumber = value;
-    if (field === 'phoneNumber') {
-      formattedPhoneNumber = formatPhoneNumber(value as string);
-      setFormattedPhoneNumber(formattedPhoneNumber);
-    }
 
     let error = '';
     switch (field) {
@@ -61,7 +53,7 @@ const SignUpForm = () => {
         }
         break;
       case 'phoneNumber':
-        error = ValidateInput({ type: 'phoneNumber', value: formattedPhoneNumber as string });
+        error = ValidateInput({ type: 'phoneNumber', value: value as string });
         setIsPhoneNumberValid(error === '');
         break;
     }
@@ -79,16 +71,6 @@ const SignUpForm = () => {
         form.name.trim() !== '' &&
         form.interested.length > 0,
     );
-  };
-
-  const formatPhoneNumber = (phoneNumber: string) => {
-    const cleaned = phoneNumber.replace(/\D/g, '');
-
-    const match = cleaned.match(/^(\d{0,3})(\d{0,4})(\d{0,4})$/);
-    if (match) {
-      return `${match[1]}${match[2] ? '-' + match[2] : ''}${match[3] ? '-' + match[3] : ''}`;
-    }
-    return phoneNumber;
   };
 
   const onClickNextBtn = () => {
@@ -158,10 +140,11 @@ const SignUpForm = () => {
         {renderLabel('휴대폰 번호')}
         <AuthInput
           placeholder="휴대폰 번호를 입력해주세요"
-          value={formattedPhoneNumber}
+          value={form.phoneNumber}
           error={errors.phoneNumber !== ''}
           errorMessage={errors.phoneNumber}
           onChange={({ value }) => handleChange('phoneNumber')(value)}
+          isPhoneNumber={true}
         />
 
         {renderLabel('관심 스타트업 분야')}
