@@ -16,8 +16,8 @@ import axios from 'axios';
 import { TitleStyle } from '../../components/title/styles';
 
 type LoginPayload = {
-  email: string; // 회원가입한 이메일
-  password: string; // 회원가입한 비밀번호
+  email: string;
+  password: string;
 };
 
 const LoginScreen = () => {
@@ -27,6 +27,7 @@ const LoginScreen = () => {
   const [passwordError, setPasswordError] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -87,10 +88,27 @@ const LoginScreen = () => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent, nextRef?: React.RefObject<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault();
+      if (nextRef) {
+        nextRef.current?.focus();
+      } else if (!isButtonDisabled) {
+        handleLogin();
+      }
+    }
+  };
+
+  const handleFormKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !isButtonDisabled) {
+      handleLogin();
+    }
+  };
+
   return (
     <>
       <Header isLoggedIn={false} currentPath={'/login'} />
-      <Container>
+      <Container onKeyDown={handleFormKeyDown}>
         <TitleStyle>로그인</TitleStyle>
 
         <TextInputWrapper>
@@ -100,17 +118,20 @@ const LoginScreen = () => {
             value={email}
             onChange={handleEmailChange}
             onFocus={() => setEmailError('')}
+            onKeyDown={(e) => handleKeyDown(e, passwordRef)}
           />
           {email && emailError && <ErrorMessage>{emailError}</ErrorMessage>}
         </TextInputWrapper>
 
         <TextInputWrapper>
           <TextInput
+            ref={passwordRef}
             placeholder="비밀번호를 입력해주세요"
             type="password"
             value={password}
             onChange={handlePasswordChange}
             onFocus={() => setPasswordError('')}
+            onKeyDown={(e) => handleKeyDown(e)}
           />
           {password && passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
         </TextInputWrapper>
