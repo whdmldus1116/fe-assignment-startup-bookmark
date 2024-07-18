@@ -22,6 +22,9 @@ const GlobalStyles = createGlobalStyle`
 
     --tag-text-color: #338BFF;
     --tag-label-color: #F0F6FF;
+
+    --card-tag-color: #262626;
+    --card-content-color: #595959;
   }
 `;
 
