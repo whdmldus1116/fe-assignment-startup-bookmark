@@ -71,8 +71,13 @@ export const CloseIcon = styled.img`
   cursor: pointer;
 `;
 
-export const MobileHeaderContainer = styled(HeaderContainer)`
+export const MobileHeaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 50px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--placeholder-color);
 `;
 
 export const MobileTitle = styled.h1`
