@@ -37,7 +37,7 @@ const TosPopUp = () => {
   };
 
   const handleSubmit = () => {
-    navigate('/startup-search');
+    navigate('/startupList');
     // TODO: save user info to local storage
   };
 
