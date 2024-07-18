@@ -101,59 +101,61 @@ const SignUpForm = () => {
 
   return (
     <>
-      <FormContainer>
-        {renderLabel('이메일 (아이디)')}
-        <AuthInput
-          className="email"
-          placeholder="이메일을 입력해주세요"
-          value={form.email}
-          error={errors.email !== ''}
-          errorMessage={errors.email}
-          onChange={({ value }) => handleChange('email')(value)}
-        />
+      <div style={{ marginBottom: '20px' }}>
+        <FormContainer>
+          {renderLabel('이메일 (아이디)')}
+          <AuthInput
+            className="email"
+            placeholder="이메일을 입력해주세요"
+            value={form.email}
+            error={errors.email !== ''}
+            errorMessage={errors.email}
+            onChange={({ value }) => handleChange('email')(value)}
+          />
 
-        {renderLabel('비밀번호')}
-        <AuthInput
-          placeholder="비밀번호를 입력해주세요 (8자리 이상)"
-          type="password"
-          error={errors.password !== '' && errors.password !== '비밀번호 안전도 높음'}
-          errorMessage={errors.password}
-          onChange={({ value }) => {
-            handleChange('password')(value);
-            handleChange('passwordConfirm')(form.passwordConfirm);
-          }}
-        />
-        <div style={{ height: '5px' }} />
-        <AuthInput
-          placeholder="다시 한 번 비밀번호를 입력해주세요"
-          type="password"
-          error={errors.passwordConfirm !== ''}
-          errorMessage={errors.passwordConfirm}
-          onChange={({ value }) => handleChange('passwordConfirm')(value)}
-        />
+          {renderLabel('비밀번호')}
+          <AuthInput
+            placeholder="비밀번호를 입력해주세요 (8자리 이상)"
+            type="password"
+            error={errors.password !== '' && errors.password !== '비밀번호 안전도 높음'}
+            errorMessage={errors.password}
+            onChange={({ value }) => {
+              handleChange('password')(value);
+              handleChange('passwordConfirm')(form.passwordConfirm);
+            }}
+          />
+          <div style={{ height: '5px' }} />
+          <AuthInput
+            placeholder="다시 한 번 비밀번호를 입력해주세요"
+            type="password"
+            error={errors.passwordConfirm !== ''}
+            errorMessage={errors.passwordConfirm}
+            onChange={({ value }) => handleChange('passwordConfirm')(value)}
+          />
 
-        {renderLabel('이름')}
-        <AuthInput
-          placeholder="예) 홍길동"
-          error={errors.name !== ''}
-          errorMessage={errors.name}
-          onChange={({ value }) => handleChange('name')(value)}
-        />
+          {renderLabel('이름')}
+          <AuthInput
+            placeholder="예) 홍길동"
+            error={errors.name !== ''}
+            errorMessage={errors.name}
+            onChange={({ value }) => handleChange('name')(value)}
+          />
 
-        {renderLabel('휴대폰 번호')}
-        <AuthInput
-          placeholder="휴대폰 번호를 입력해주세요"
-          value={form.tel}
-          error={errors.tel !== ''}
-          errorMessage={errors.tel}
-          onChange={({ value }) => handleChange('tel')(value)}
-          isTel={true}
-        />
+          {renderLabel('휴대폰 번호')}
+          <AuthInput
+            placeholder="휴대폰 번호를 입력해주세요"
+            value={form.tel}
+            error={errors.tel !== ''}
+            errorMessage={errors.tel}
+            onChange={({ value }) => handleChange('tel')(value)}
+            isTel={true}
+          />
 
-        {renderLabel('관심 스타트업 분야')}
-        <DropUp onChange={(value) => handleChange('interestStartups')(value)} />
-        {errors.interestStartups && <ErrorMessage>{errors.interestStartups}</ErrorMessage>}
-      </FormContainer>
+          {renderLabel('관심 스타트업 분야')}
+          <DropUp onChange={(value) => handleChange('interestStartups')(value)} />
+          {errors.interestStartups && <ErrorMessage>{errors.interestStartups}</ErrorMessage>}
+        </FormContainer>
+      </div>
 
       {isPopupOpen && (
         <TosPopUp
@@ -163,6 +165,7 @@ const SignUpForm = () => {
           setIsMarketingChecked={setIsMarketingChecked}
         />
       )}
+
       <SubmitBtn type="next" isActive={isValid} onClick={onClickNextBtn} />
     </>
   );

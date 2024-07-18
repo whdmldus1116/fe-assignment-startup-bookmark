@@ -7,6 +7,10 @@ export const HeaderContainer = styled.header`
   height: 60px;
   padding: 0 20px;
   border-bottom: 1px solid var(--placeholder-color);
+
+  @media (max-width: 768px) {
+    height: 50px;
+  }
 `;
 
 export const HeaderActionButton = styled.button<{ active: boolean }>`
@@ -55,4 +59,9 @@ export const CloseIcon = styled.img`
   width: 20px;
   height: 20px;
   cursor: pointer;
+`;
+
+export const MobileText = styled.span`
+  font-size: 14px;
+  color: var(--input-text-color);
 `;

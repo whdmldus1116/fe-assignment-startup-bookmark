@@ -3,6 +3,9 @@ import { css } from '@emotion/react';
 export const reset = css`
   @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
+  html {
+    scrollbar-gutter: stable;
+  }
   html,
   body,
   div,
