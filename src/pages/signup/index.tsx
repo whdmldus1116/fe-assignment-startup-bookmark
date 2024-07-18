@@ -3,8 +3,20 @@ import LineText from '../../components/lineText';
 import { TitleStyle } from '../../components/title/styles';
 import SignUpForm from '../../components/signUpForm';
 import Header from '../../components/header';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpScreen = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      alert('이미 로그인 되어있습니다');
+      navigate('/startupList');
+      return;
+    }
+  }, []);
+
   return (
     <>
       <Header isLoggedIn={false} currentPath="/signup" />
