@@ -2,7 +2,7 @@ import { PageContainer, Title, CardGrid } from './styles';
 import Header from '../../components/header';
 import Card from '../../components/card';
 
-const StartupList = () => {
+const BookMark = () => {
   //TODO: api 연결필요
   const startups = [
     {
@@ -35,4 +35,4 @@ const StartupList = () => {
   );
 };
 
-export default StartupList;
+export default BookMark;
