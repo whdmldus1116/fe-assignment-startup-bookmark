@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const MenuPage = () => {
   const menuItems = [
-    { name: '홈', link: '/' },
-    { name: '북마크', link: '/bookmarks' },
+    { name: '홈', link: '/startupList' },
+    { name: '북마크', link: '/bookMark' },
   ];
 
   return (
