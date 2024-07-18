@@ -1,4 +1,4 @@
-import TextInput from 'components/textInput';
+import TextInput from '../textInput';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -16,7 +16,7 @@ export const StyledTextInput = styled(TextInput)<{ error: boolean }>`
 export const ErrorIcon = styled.img`
   position: absolute;
   right: 10px;
-  top: 50%;
+  top: 35%;
   transform: translateY(-50%);
   height: 20px;
   width: 20px;
