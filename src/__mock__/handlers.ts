@@ -43,7 +43,7 @@ const userHandlers = [
       return res(ctx.status(400), ctx.json({ message: '비밀번호가 일치하지 않습니다' }));
     }
     const token = await issueToken(user.email);
-    return res(ctx.status(200), ctx.cookie('auth', token), ctx.json({ token }));
+    return res(ctx.status(200), ctx.cookie('auth', token), ctx.json({ token, user }));
   }),
 ];
 
