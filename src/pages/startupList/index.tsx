@@ -6,27 +6,38 @@ import Card from '../../components/card';
 
 const StartupList = () => {
   const [startups, setStartups] = useState<any[]>([]);
+  const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchStartups = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('/api/startups', {
-          params: {
-            offset: 0,
-            limit: 12,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`, // 인증 헤더 추가
-          },
-        });
+        const [startupResponse, bookmarkResponse] = await Promise.all([
+          axios.get('/api/startups', {
+            params: {
+              offset: 0,
+              limit: 12,
+            },
+            headers: {
+              Authorization: `Bearer ${token}`, // 인증 헤더 추가
+            },
+          }),
+          axios.get('/api/startups/bookmark', {
+            headers: {
+              Authorization: `Bearer ${token}`, // 인증 헤더 추가
+            },
+          }),
+        ]);
 
-        const { startups: data } = response.data;
-        setStartups(data);
+        const { startups: startupData } = startupResponse.data;
+        const { companies: bookmarkData } = bookmarkResponse.data;
+
+        setStartups(startupData);
+        setBookmarkedStartups(bookmarkData);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching startups:', error);
+        console.error('Error fetching startups or bookmarks:', error);
         setLoading(false);
       }
     };
@@ -34,7 +45,7 @@ const StartupList = () => {
     fetchStartups();
   }, []);
 
-  const handleBookmark = async (id: string) => {
+  const handleToggleBookmark = async (id: string) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
@@ -46,11 +57,25 @@ const StartupList = () => {
           },
         },
       );
-      // 북마크 추가 성공 시 여기서 추가적인 처리를 할 수 있음
+
+      const response = await axios.get('/api/startups/bookmark', {
+        headers: {
+          Authorization: `Bearer ${token}`, // 인증 헤더 추가
+        },
+      });
+
+      const { companies: data } = response.data;
+      setBookmarkedStartups(data);
     } catch (error) {
-      console.error('Error adding bookmark:', error);
+      console.error('Error toggling bookmark:', error);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const bookmarkedIds = new Set(bookmarkedStartups.map((startup) => startup.id));
 
   return (
     <>
@@ -67,8 +92,8 @@ const StartupList = () => {
               description={startup.description}
               thumbnailImageUrl={startup.thumbnailImageUrl}
               thumbnailFallbackColor={startup.thumbnailFallbackColor}
-              bookmark={false} // 현재는 북마크 표시가 안되도록 false로 설정
-              onBookmark={() => handleBookmark(startup.id)}
+              bookmark={bookmarkedIds.has(startup.id)}
+              onBookmark={() => handleToggleBookmark(startup.id)}
             />
           ))}
         </CardGrid>

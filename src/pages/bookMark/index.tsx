@@ -5,7 +5,7 @@ import Header from '../../components/header';
 import Card from '../../components/card';
 
 const BookmarkPage = () => {
-  const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]); // 초기 상태를 빈 배열로 설정
+  const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -14,12 +14,11 @@ const BookmarkPage = () => {
         const token = localStorage.getItem('token');
         const response = await axios.get('/api/startups/bookmark', {
           headers: {
-            Authorization: `Bearer ${token}`, // 인증 헤더 추가
+            Authorization: `Bearer ${token}`,
           },
         });
 
         const { companies: data } = response.data;
-
         setBookmarkedStartups(data);
         setLoading(false);
       } catch (error) {
@@ -34,29 +33,30 @@ const BookmarkPage = () => {
   const handleToggleBookmark = async (id: string) => {
     try {
       const token = localStorage.getItem('token');
-      const isBookmarked = bookmarkedStartups.some((startup) => startup.id === id);
 
-      // 서버에 항상 POST 요청을 보냄 (중복 북마크 방지)
       await axios.post(
         '/api/startups/bookmark',
         { id },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // 인증 헤더 추가
+            Authorization: `Bearer ${token}`,
           },
         },
       );
 
-      if (!isBookmarked) {
-        // 북마크되지 않은 경우, 로컬 상태 업데이트
-        setBookmarkedStartups([...bookmarkedStartups, { id }]);
-      }
+      const response = await axios.get('/api/startups/bookmark', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const { companies: data } = response.data;
+      setBookmarkedStartups(data);
     } catch (error) {
       console.error('Error toggling bookmark:', error);
     }
   };
 
-  // 로딩 중일 때의 UI 처리
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -65,7 +65,7 @@ const BookmarkPage = () => {
     <>
       <Header isLoggedIn={true} currentPath="/bookmark" username={'꿍꿍꿍'} />
       <PageContainer>
-        <Title>북마크한 스타트업 리스트</Title>
+        <Title>북마크</Title>
         <CardGrid>
           {bookmarkedStartups.map((startup: any) => (
             <Card
@@ -76,8 +76,8 @@ const BookmarkPage = () => {
               description={startup.description}
               thumbnailImageUrl={startup.thumbnailImageUrl}
               thumbnailFallbackColor={startup.thumbnailFallbackColor}
-              bookmark={true} // 북마크 표시는 true로 설정
-              onBookmark={() => handleToggleBookmark(startup.id)} // 북마크 토글 처리
+              bookmark={true}
+              onBookmark={() => handleToggleBookmark(startup.id)}
             />
           ))}
         </CardGrid>
