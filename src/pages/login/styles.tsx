@@ -7,11 +7,6 @@ export const Container = styled.div`
   margin-top: 100px;
 `;
 
-export const Title = styled.h1`
-  font-size: 30px;
-  margin-bottom: 24px;
-`;
-
 export const ErrorMessage = styled.span`
   color: var(--error-color);
   font-size: 12px;
@@ -26,6 +21,8 @@ export const Divider = styled.div`
 `;
 
 export const TextInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-bottom: 8px;
 `;
 
