@@ -22,7 +22,7 @@ const SignUpContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 105px;
+  margin: 105px 0;
   align-items: center;
 `;
 

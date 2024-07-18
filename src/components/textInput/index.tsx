@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 type Props = {
   className?: string;
+  type?: string;
   placeholder?: string;
   onChange: ({ value }: { value: string }) => void;
   onFocus?: () => void;
@@ -16,6 +17,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
   (
     {
       className,
+      type,
       placeholder,
       onChange,
       onFocus,
@@ -49,7 +51,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
     return (
       <StyledInput
         ref={ref as Ref<HTMLInputElement>}
-        type="text"
+        type={type}
         value={text}
         className={className}
         placeholder={placeholder}

@@ -1,6 +1,12 @@
+import axios from 'axios';
+
 type Props = {
   type: string;
   value: string | { password: string; passwordConfirm: string };
+};
+
+type CheckTelPayload = {
+  tel: string;
 };
 
 export const ValidateInput = ({ type, value }: Props) => {
@@ -13,8 +19,6 @@ export const ValidateInput = ({ type, value }: Props) => {
       return validatePasswordConfirm(value as { password: string; passwordConfirm: string });
     case 'name':
       return validateName(value as string);
-    case 'phoneNumber':
-      return validatePhoneNumber(value as string);
     default:
       return '';
   }
@@ -80,16 +84,24 @@ const validateName = (value: string) => {
   return '';
 };
 
-const validatePhoneNumber = (phoneNumber: string) => {
+export const validatePhoneNumber = async (phoneNumber: string) => {
   const phoneNumberWithoutHyphen = phoneNumber.replace(/-/g, '');
   if (!/^\d+$/.test(phoneNumberWithoutHyphen)) {
     return '숫자만 입력 가능합니다.';
   }
 
   if (!phoneNumberRegex.test(phoneNumberWithoutHyphen)) {
-    return '휴대폰 번호 형식이 올바르지 않습니다.';
+    return '잘못된 휴대폰 번호입니다.';
   }
+  const payload: CheckTelPayload = { tel: phoneNumberWithoutHyphen };
 
-  return '';
-  // TODO: 휴대폰 번호 중복 체크
+  try {
+    const response = await axios.post('/api/check-tel', payload);
+    if (response.status === 204) {
+      return '';
+    }
+  } catch (error) {
+    console.error(error);
+    return '이미 등록된 휴대폰 번호입니다.';
+  }
 };

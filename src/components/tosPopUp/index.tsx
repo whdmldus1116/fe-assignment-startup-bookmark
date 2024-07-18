@@ -13,14 +13,32 @@ import closeIcon from '../../assets/close.png';
 import { useEffect, useState } from 'react';
 import { SubmitBtn } from '../submitBtn';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 type Props = {
+  signupForm: {
+    email: string;
+    password: string;
+    passwordConfirm: string;
+    name: string;
+    tel: string;
+    interestStartups: string[];
+  };
   onClose: () => void;
   isMarketingChecked: boolean;
   setIsMarketingChecked: (checked: boolean) => void;
 };
 
-const TosPopUp = ({ onClose, isMarketingChecked, setIsMarketingChecked }: Props) => {
+type SignupPayload = {
+  email: string; // 이메일 주소
+  password: string; // 비밀번호
+  name: string; // 이름
+  tel: string; // 전화번호
+  interestStartups: string[]; // 관심 스타트업 분야
+  marketingAgreed: boolean; // 마케팅 활용 동의
+};
+
+const TosPopUp = ({ signupForm, onClose, isMarketingChecked, setIsMarketingChecked }: Props) => {
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [isServiceChecked, setIsServiceChecked] = useState(false);
   const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
@@ -41,9 +59,21 @@ const TosPopUp = ({ onClose, isMarketingChecked, setIsMarketingChecked }: Props)
     return true;
   };
 
-  const handleSubmit = () => {
-    navigate('/startupList');
-    // TODO: save user info to local storage
+  const handleSubmit = async () => {
+    const payload: SignupPayload = {
+      ...signupForm,
+      marketingAgreed: isMarketingChecked,
+    };
+
+    try {
+      const response = await axios.post('/api/signup', payload);
+      if (response.status === 201) {
+        onClose();
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {

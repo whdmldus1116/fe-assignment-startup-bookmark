@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AuthInput from '../authInput';
 import { SubmitBtn } from '../submitBtn';
 import TosPopUp from '../tosPopUp';
@@ -12,16 +12,16 @@ const SignUpForm = () => {
     password: '',
     passwordConfirm: '',
     name: '',
-    phoneNumber: '',
-    interested: [] as string[],
+    tel: '',
+    interestStartups: [] as string[],
   });
   const [errors, setErrors] = useState({
     email: '',
     password: '',
     passwordConfirm: '',
     name: '',
-    phoneNumber: '',
-    interested: '',
+    tel: '',
+    interestStartups: '',
   });
 
   const [isValid, setIsValid] = useState(false);
@@ -30,7 +30,7 @@ const SignUpForm = () => {
 
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
-  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+  const [istelValidValid, setIstelValidValid] = useState(false);
 
   const handleChange = (field: string) => (value: string | string[]) => {
     setForm((prevForm) => ({
@@ -42,6 +42,7 @@ const SignUpForm = () => {
     switch (field) {
       case 'password':
         error = ValidateInput({ type: 'password', value: value as string });
+        // TODO: Fix: 비밀번호 안전도 높음일 때 error 안뜨는 문제
         setIsPasswordValid(error === '비밀번호 안전도 높음');
         break;
       case 'passwordConfirm':
@@ -53,9 +54,9 @@ const SignUpForm = () => {
           setIsPasswordConfirmValid(error === '');
         }
         break;
-      case 'phoneNumber':
-        error = ValidateInput({ type: 'phoneNumber', value: value as string });
-        setIsPhoneNumberValid(error === '');
+      case 'tel':
+        error = ValidateInput({ type: 'tel', value: value as string });
+        setIstelValidValid(error === '');
         break;
     }
 
@@ -67,7 +68,7 @@ const SignUpForm = () => {
     setIsValid(
       isPasswordValid &&
         isPasswordConfirmValid &&
-        isPhoneNumberValid &&
+        istelValidValid &&
         form.email.trim() !== '' &&
         form.name.trim() !== '',
     );
@@ -76,17 +77,17 @@ const SignUpForm = () => {
   const onClickNextBtn = () => {
     const emailError = ValidateInput({ type: 'email', value: form.email });
     const nameError = ValidateInput({ type: 'name', value: form.name });
-    const interestedError =
-      form.interested.length === 0 ? '관심 스타트업 분야를 선택해주세요.' : '';
+    const interestStartupsError =
+      form.interestStartups.length === 0 ? '관심 스타트업 분야를 선택해주세요.' : '';
 
     setErrors((prevErrors) => ({
       ...prevErrors,
       email: emailError,
       name: nameError,
-      interested: interestedError,
+      interestStartups: interestStartupsError,
     }));
 
-    if (!emailError && !nameError && !interestedError) {
+    if (!emailError && !nameError && !interestStartupsError) {
       setIsPopupOpen(true);
     }
   };
@@ -114,6 +115,7 @@ const SignUpForm = () => {
         {renderLabel('비밀번호')}
         <AuthInput
           placeholder="비밀번호를 입력해주세요 (8자리 이상)"
+          type="password"
           error={errors.password !== '' && errors.password !== '비밀번호 안전도 높음'}
           errorMessage={errors.password}
           onChange={({ value }) => {
@@ -124,6 +126,7 @@ const SignUpForm = () => {
         <div style={{ height: '5px' }} />
         <AuthInput
           placeholder="다시 한 번 비밀번호를 입력해주세요"
+          type="password"
           error={errors.passwordConfirm !== ''}
           errorMessage={errors.passwordConfirm}
           onChange={({ value }) => handleChange('passwordConfirm')(value)}
@@ -140,20 +143,21 @@ const SignUpForm = () => {
         {renderLabel('휴대폰 번호')}
         <AuthInput
           placeholder="휴대폰 번호를 입력해주세요"
-          value={form.phoneNumber}
-          error={errors.phoneNumber !== ''}
-          errorMessage={errors.phoneNumber}
-          onChange={({ value }) => handleChange('phoneNumber')(value)}
-          isPhoneNumber={true}
+          value={form.tel}
+          error={errors.tel !== ''}
+          errorMessage={errors.tel}
+          onChange={({ value }) => handleChange('tel')(value)}
+          isTel={true}
         />
 
         {renderLabel('관심 스타트업 분야')}
-        <DropUp onChange={(value) => handleChange('interested')(value)} />
-        {errors.interested && <ErrorMessage>{errors.interested}</ErrorMessage>}
+        <DropUp onChange={(value) => handleChange('interestStartups')(value)} />
+        {errors.interestStartups && <ErrorMessage>{errors.interestStartups}</ErrorMessage>}
       </FormContainer>
 
       {isPopupOpen && (
         <TosPopUp
+          signupForm={form}
           onClose={() => setIsPopupOpen(false)}
           isMarketingChecked={isMarketingChecked}
           setIsMarketingChecked={setIsMarketingChecked}
