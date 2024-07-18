@@ -4,7 +4,7 @@ import { PageContainer, Title, CardGrid } from './styles';
 import Header from '../../components/header';
 import Card from '../../components/card';
 
-const BookmarkPage = () => {
+const BookmarkScreen = () => {
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [username, setUsername] = useState<string>('');
@@ -103,4 +103,4 @@ const BookmarkPage = () => {
   );
 };
 
-export default BookmarkPage;
+export default BookmarkScreen;

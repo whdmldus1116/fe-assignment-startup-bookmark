@@ -2,7 +2,7 @@ import Header from '../components/header';
 import { TitleStyle } from '../components/title/styles';
 import styled from 'styled-components';
 
-const MenuPage = () => {
+const MenuScreen = () => {
   const menuItems = [
     { name: '홈', link: '/startupList' },
     { name: '북마크', link: '/bookMark' },
@@ -52,4 +52,4 @@ const Item = styled.a`
   }
 `;
 
-export default MenuPage;
+export default MenuScreen;

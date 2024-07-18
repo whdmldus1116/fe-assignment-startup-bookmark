@@ -4,7 +4,7 @@ import { PageContainer, Title, CardGrid } from './styles';
 import Header from '../../components/header';
 import Card from '../../components/card';
 
-const StartupList = () => {
+const StartupScreen = () => {
   const [startups, setStartups] = useState<any[]>([]);
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -120,4 +120,4 @@ const StartupList = () => {
   );
 };
 
-export default StartupList;
+export default StartupScreen;

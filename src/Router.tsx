@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import MenuPage from './pages/menu';
 import LoginScreen from './pages/login';
-import StartupList from './pages/startupList';
 import SignUpScreen from './pages/signup';
-import BookmarkPage from './pages/bookMark';
+import StartupScreen from './pages/startupList';
+import BookmarkScreen from './pages/bookMark';
+import MenuScreen from './pages/menu';
 
 const Router = () => {
   return (
@@ -13,9 +13,9 @@ const Router = () => {
         <Route path="/" element={<Navigate replace to="/login" />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/signup" element={<SignUpScreen />} />
-        <Route path="/menu" element={<MenuPage />} />
-        <Route path="/startupList" element={<StartupList />} />
-        <Route path="/bookMark" element={<BookmarkPage />} />
+        <Route path="/menu" element={<MenuScreen />} />
+        <Route path="/startupList" element={<StartupScreen />} />
+        <Route path="/bookMark" element={<BookmarkScreen />} />
       </Routes>
     </BrowserRouter>
   );
