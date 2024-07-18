@@ -7,8 +7,24 @@ import Card from '../../components/card';
 const BookmarkPage = () => {
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [username, setUsername] = useState<string>('');
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('/api/user', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
     const fetchBookmarkedStartups = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -27,6 +43,7 @@ const BookmarkPage = () => {
       }
     };
 
+    fetchUserData();
     fetchBookmarkedStartups();
   }, []);
 
@@ -63,7 +80,7 @@ const BookmarkPage = () => {
 
   return (
     <>
-      <Header isLoggedIn={true} currentPath="/bookmark" username={'꿍꿍꿍'} />
+      <Header isLoggedIn={true} currentPath="/bookmark" username={username} />
       <PageContainer>
         <Title>북마크</Title>
         <CardGrid>

@@ -8,8 +8,24 @@ const StartupList = () => {
   const [startups, setStartups] = useState<any[]>([]);
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [username, setUsername] = useState<string>('');
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('/api/user', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
     const fetchStartups = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -42,6 +58,7 @@ const StartupList = () => {
       }
     };
 
+    fetchUserData();
     fetchStartups();
   }, []);
 
@@ -79,7 +96,8 @@ const StartupList = () => {
 
   return (
     <>
-      <Header isLoggedIn={true} currentPath="/" username={'꿍꿍꿍'} />
+      <Header isLoggedIn={true} currentPath="/startupList" username={username} />
+
       <PageContainer>
         <Title>스타트업 리스트</Title>
         <CardGrid>
