@@ -78,11 +78,11 @@ const LoginScreen = () => {
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
         navigate('/startupList');
-      } else {
-        alert('아이디/비밀번호를 확인해주세요');
       }
     } catch (error) {
-      console.error(error);
+      if ((error as any).response.status === 400) {
+        alert('아이디/비밀번호를 확인해주세요');
+      }
     }
   };
 
