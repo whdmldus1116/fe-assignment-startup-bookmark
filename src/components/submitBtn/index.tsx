@@ -27,6 +27,7 @@ export const SubmitBtn = ({ type, isActive, onClick }: Props) => {
 
   return (
     <SubmitBtnStyle
+      location={type}
       onClick={handleClick}
       style={{
         backgroundColor: isActive ? '#006eff' : '#B8D7FF',
