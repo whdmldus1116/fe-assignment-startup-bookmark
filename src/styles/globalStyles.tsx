@@ -19,6 +19,9 @@ const GlobalStyles = createGlobalStyle`
     --label-text-color: #424242;
 
     --hr-color: #D6DAE0;
+
+    --tag-text-color: #338BFF;
+    --tag-label-color: #F0F6FF;
   }
 `;
 
