@@ -30,6 +30,12 @@ const LoginScreen = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (localStorage.getItem('token')) {
+      alert('이미 로그인 되어있습니다');
+      navigate('/startupList');
+      return;
+    }
+
     emailRef.current?.focus();
   }, []);
 
@@ -68,9 +74,9 @@ const LoginScreen = () => {
 
     try {
       const response = await axios.post('api/login', payload);
-      console.log(response);
 
       if (response.status === 200) {
+        localStorage.setItem('token', response.data.token);
         navigate('/startupList');
       } else {
         alert('아이디/비밀번호를 확인해주세요');
@@ -109,7 +115,7 @@ const LoginScreen = () => {
         </TextInputWrapper>
 
         <SubmitBtnWrapper>
-          <SubmitBtn type="login" isActive={true} onClick={handleLogin} />
+          <SubmitBtn type="login" isActive={!isButtonDisabled} onClick={handleLogin} />
         </SubmitBtnWrapper>
 
         <Divider />
