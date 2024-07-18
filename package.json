@@ -29,6 +29,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@types/react-responsive": "^8.0.8",
+    "axios": "^1.7.2",
     "emotion-normalize": "^11.0.1",
     "localforage": "^1.10.0",
     "react": "^18.2.0",
