@@ -4,27 +4,32 @@ export const PopupContainer = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
-  bottom: 10px;
+  bottom: 0;
   z-index: 100;
 
   padding: 22px;
 
   width: 380px;
-  height: 450px;
+  height: 400px;
   border-radius: 16px 16px 0 0;
   background-color: #ffffff;
   box-shadow: 0px -8px 16px 0px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const PopupHeader = styled.div`
   display: flex;
   justify-content: flex-end;
-  height: 50px;
+  height: 40px;
 `;
 
 export const CloseIcon = styled.img`
   width: 20px;
   height: 20px;
+  cursor: pointer;
 `;
 
 export const PopupTitle = styled.span`

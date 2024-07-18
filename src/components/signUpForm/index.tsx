@@ -155,16 +155,16 @@ const SignUpForm = () => {
           <DropUp onChange={(value) => handleChange('interestStartups')(value)} />
           {errors.interestStartups && <ErrorMessage>{errors.interestStartups}</ErrorMessage>}
         </FormContainer>
-
-        {isPopupOpen && (
-          <TosPopUp
-            signupForm={form}
-            onClose={() => setIsPopupOpen(false)}
-            isMarketingChecked={isMarketingChecked}
-            setIsMarketingChecked={setIsMarketingChecked}
-          />
-        )}
       </div>
+
+      {isPopupOpen && (
+        <TosPopUp
+          signupForm={form}
+          onClose={() => setIsPopupOpen(false)}
+          isMarketingChecked={isMarketingChecked}
+          setIsMarketingChecked={setIsMarketingChecked}
+        />
+      )}
 
       <SubmitBtn type="next" isActive={isValid} onClick={onClickNextBtn} />
     </>
