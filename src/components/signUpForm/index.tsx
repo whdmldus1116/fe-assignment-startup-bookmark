@@ -69,8 +69,7 @@ const SignUpForm = () => {
         isPasswordConfirmValid &&
         isPhoneNumberValid &&
         form.email.trim() !== '' &&
-        form.name.trim() !== '' &&
-        form.interested.length > 0,
+        form.name.trim() !== '',
     );
   };
 
