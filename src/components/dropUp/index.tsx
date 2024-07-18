@@ -12,11 +12,11 @@ import {
   SelectedOption,
 } from './styles';
 
-interface DropUpProps {
+type Props = {
   onChange: (selectedOptions: string[]) => void;
-}
+};
 
-const DropUp: React.FC<DropUpProps> = ({ onChange }) => {
+const DropUp = ({ onChange }: Props) => {
   const options = ['메타버스', '핀테크', 'NFT', '트래블테크', '헬스케어'];
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
