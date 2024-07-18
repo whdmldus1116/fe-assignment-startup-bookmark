@@ -4,7 +4,9 @@ import Router from './Router';
 const App = () => {
   return (
     <>
-      <Mobile>이건 모바일 !!</Mobile>
+      <Mobile>
+        <Router />
+      </Mobile>
       <PC>
         <Router />
       </PC>
