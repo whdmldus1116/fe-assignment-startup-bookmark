@@ -6,6 +6,8 @@ import Card from '../../components/card';
 import { useInView } from 'react-intersection-observer';
 
 const StartupScreen = () => {
+  const isMobile = window.innerWidth < 768;
+
   const [startups, setStartups] = useState<any[]>([]);
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -116,10 +118,15 @@ const StartupScreen = () => {
 
   return (
     <>
-      <Header isLoggedIn={true} currentPath="/startupList" username={username} />
+      <Header
+        isMobile={isMobile}
+        isLoggedIn={true}
+        currentPath="/startupList"
+        username={username}
+      />
 
       <PageContainer>
-        <Title>스타트업 리스트</Title>
+        {!isMobile && <Title>스타트업 리스트</Title>}
         <CardGrid>
           {startups.map((startup: any) => (
             <Card

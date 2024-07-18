@@ -1,16 +1,13 @@
 import styled from 'styled-components';
 
-export const HeaderContainer = styled.header`
+export const HeaderContainer = styled.header<{ path: string }>`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   height: 60px;
   padding: 0 20px;
-  border-bottom: 1px solid var(--placeholder-color);
-
-  @media (max-width: 768px) {
-    height: 50px;
-  }
+  border-bottom: ${({ path }) =>
+    path === '/menu' ? 'none' : '1px solid var(--placeholder-color)'};
 `;
 
 export const HeaderActionButton = styled.button<{ active: boolean }>`
@@ -27,6 +24,13 @@ export const Divider = styled.span`
   color: var(--placeholder-color);
   margin: 0 10px;
   cursor: default;
+`;
+
+export const UserProfile = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 50px;
 `;
 
 export const ProfileIcon = styled.div`
@@ -51,14 +55,29 @@ export const UserName = styled.span`
 `;
 
 export const MenuIcon = styled.img`
+  height: 20px;
+  width: 20px;
+  position: absolute;
   margin-left: 15px;
   cursor: pointer;
+  right: 20px;
 `;
 
 export const CloseIcon = styled.img`
+  position: absolute;
+  right: 20px;
   width: 20px;
   height: 20px;
   cursor: pointer;
+`;
+
+export const MobileHeaderContainer = styled(HeaderContainer)`
+  height: 50px;
+`;
+
+export const MobileTitle = styled.h1`
+  font-size: 20px;
+  color: var(--default-text-color);
 `;
 
 export const MobileText = styled.span`
