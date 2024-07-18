@@ -1,66 +1,86 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { PageContainer, Title, CardGrid } from './styles';
 import Header from '../../components/header';
 import Card from '../../components/card';
+import { useInView } from 'react-intersection-observer';
 
 const StartupScreen = () => {
   const [startups, setStartups] = useState<any[]>([]);
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [username, setUsername] = useState<string>('');
+  const [page, setPage] = useState<number>(0);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('/api/user', {
+  const { ref, inView } = useInView();
+
+  const fetchUserData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('/api/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUsername(response.data.username);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  const fetchStartups = useCallback(async () => {
+    if (!hasMore) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      const [startupResponse, bookmarkResponse] = await Promise.all([
+        axios.get('/api/startups', {
+          params: {
+            offset: page * 12,
+            limit: 12,
+          },
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
+        }),
+        axios.get('/api/startups/bookmark', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      ]);
 
-        setUsername(response.data.username);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+      const { startups: startupData } = startupResponse.data;
+      const { companies: bookmarkData } = bookmarkResponse.data;
+
+      setStartups((prev) => [...prev, ...startupData]);
+      setBookmarkedStartups(bookmarkData);
+      setLoading(false);
+
+      if (startupData.length < 12) {
+        setHasMore(false);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching startups or bookmarks:', error);
+      setLoading(false);
+    }
+  }, [page, hasMore]);
 
-    const fetchStartups = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const [startupResponse, bookmarkResponse] = await Promise.all([
-          axios.get('/api/startups', {
-            params: {
-              offset: 0,
-              limit: 12,
-            },
-            headers: {
-              Authorization: `Bearer ${token}`, // 인증 헤더 추가
-            },
-          }),
-          axios.get('/api/startups/bookmark', {
-            headers: {
-              Authorization: `Bearer ${token}`, // 인증 헤더 추가
-            },
-          }),
-        ]);
-
-        const { startups: startupData } = startupResponse.data;
-        const { companies: bookmarkData } = bookmarkResponse.data;
-
-        setStartups(startupData);
-        setBookmarkedStartups(bookmarkData);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching startups or bookmarks:', error);
-        setLoading(false);
-      }
-    };
-
+  useEffect(() => {
     fetchUserData();
-    fetchStartups();
   }, []);
+
+  useEffect(() => {
+    fetchStartups();
+  }, [page, fetchStartups]);
+
+  useEffect(() => {
+    if (inView && hasMore) {
+      setPage((prev) => prev + 1);
+    }
+  }, [inView, hasMore]);
 
   const handleToggleBookmark = async (id: string) => {
     try {
@@ -70,14 +90,14 @@ const StartupScreen = () => {
         { id },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // 인증 헤더 추가
+            Authorization: `Bearer ${token}`,
           },
         },
       );
 
       const response = await axios.get('/api/startups/bookmark', {
         headers: {
-          Authorization: `Bearer ${token}`, // 인증 헤더 추가
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -115,6 +135,7 @@ const StartupScreen = () => {
             />
           ))}
         </CardGrid>
+        <div ref={ref} />
       </PageContainer>
     </>
   );
