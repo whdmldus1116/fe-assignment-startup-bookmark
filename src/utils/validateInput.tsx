@@ -99,11 +99,11 @@ export const validatePhoneNumber = async (phoneNumber: string) => {
     const response = await axios.post('/api/check-tel', payload);
     if (response.status === 204) {
       return '';
-    } else {
-      return '이미 등록된 휴대폰 번호입니다.';
     }
   } catch (error) {
-    console.error(error);
-    return '이미 등록된 휴대폰 번호입니다.';
+    if ((error as any).response.status === 400) {
+      return '이미 등록된 휴대폰 번호입니다.';
+    }
   }
+  return '';
 };
