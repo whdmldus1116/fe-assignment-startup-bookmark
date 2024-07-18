@@ -12,7 +12,7 @@ type Props = {
   error?: boolean;
   errorMessage?: string;
   textColor?: string;
-  isPhoneNumber?: boolean;
+  isTel?: boolean;
 };
 
 const AuthInput = ({
@@ -26,7 +26,7 @@ const AuthInput = ({
   error = false,
   errorMessage = '',
   textColor = 'var(--focus-border-color)',
-  isPhoneNumber = false,
+  isTel = false,
 }: Props) => {
   const [text, setText] = useState(value);
 
@@ -34,6 +34,8 @@ const AuthInput = ({
     setText(value);
     onChange({ value });
   };
+
+  // TODO: 비밀번호 에러 메세지 색상 3가지 구분
 
   return (
     <Container>
@@ -46,7 +48,7 @@ const AuthInput = ({
         value={text}
         disabled={disabled}
         error={error}
-        isPhoneNumber={isPhoneNumber}
+        isPhoneNumber={isTel}
       />
       {error && <ErrorIcon src="/src/assets/error.png" />}
       <ErrorMessage error={error} textColor={textColor}>
