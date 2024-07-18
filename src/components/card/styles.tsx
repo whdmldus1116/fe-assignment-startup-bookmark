@@ -1,3 +1,5 @@
+// src/components/card/styles.ts
+
 import styled from 'styled-components';
 
 export const CardWrapper = styled.div`
@@ -10,10 +12,13 @@ export const CardWrapper = styled.div`
   background-color: white;
 `;
 
-export const Image = styled.img`
+export const Image = styled.div<{ fallbackColor: string }>`
   width: 295px;
   height: 190px;
-  object-fit: cover;
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  background-position: center;
+  background-color: ${(props) => props.fallbackColor};
 `;
 
 export const ContentWrapper = styled.div`
@@ -42,6 +47,11 @@ export const Description = styled.p`
   font-size: 14px;
   color: var(--card-content-color);
   line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 `;
 
 export const BookmarkIcon = styled.img`

@@ -4,7 +4,7 @@ import MenuPage from './pages/menu';
 import LoginScreen from './pages/login';
 import StartupList from './pages/startupList';
 import SignUpScreen from './pages/signup';
-import BookMark from './pages/bookMark';
+import BookmarkPage from './pages/bookMark';
 
 const Router = () => {
   return (
@@ -15,7 +15,7 @@ const Router = () => {
         <Route path="/signup" element={<SignUpScreen />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/startupList" element={<StartupList />} />
-        <Route path="/bookMark" element={<BookMark />} />
+        <Route path="/bookMark" element={<BookmarkPage />} />
       </Routes>
     </BrowserRouter>
   );
