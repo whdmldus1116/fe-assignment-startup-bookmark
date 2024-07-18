@@ -18,7 +18,8 @@ const BookmarkPage = () => {
           },
         });
 
-        const { startups: data } = response.data;
+        const { companies: data } = response.data;
+
         setBookmarkedStartups(data);
         setLoading(false);
       } catch (error) {

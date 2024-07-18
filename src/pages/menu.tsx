@@ -1,3 +1,4 @@
+import Header from '../components/header';
 import { TitleStyle } from '../components/title/styles';
 import styled from 'styled-components';
 
@@ -8,15 +9,18 @@ const MenuPage = () => {
   ];
 
   return (
-    <MenuContainer>
-      <TitleStyle>메뉴</TitleStyle>
-      <hr style={{ width: '100%', borderBottom: '1px solid #e8ecf2' }} />
-      {menuItems.map((item, index) => (
-        <Item key={index} href={item.link}>
-          <span>{item.name}</span>
-        </Item>
-      ))}
-    </MenuContainer>
+    <>
+      <Header isLoggedIn={true} currentPath="/menu" username={'꿍꿍꿍'} />
+      <MenuContainer>
+        <TitleStyle>메뉴</TitleStyle>
+        <hr style={{ width: '100%', borderBottom: '1px solid #e8ecf2' }} />
+        {menuItems.map((item, index) => (
+          <Item key={index} href={item.link}>
+            <span>{item.name}</span>
+          </Item>
+        ))}
+      </MenuContainer>
+    </>
   );
 };
 
