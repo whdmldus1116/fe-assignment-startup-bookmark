@@ -14,11 +14,16 @@ import { useEffect, useState } from 'react';
 import { SubmitBtn } from '../submitBtn';
 import { useNavigate } from 'react-router-dom';
 
-const TosPopUp = () => {
+type Props = {
+  onClose: () => void;
+  isMarketingChecked: boolean;
+  setIsMarketingChecked: (checked: boolean) => void;
+};
+
+const TosPopUp = ({ onClose, isMarketingChecked, setIsMarketingChecked }: Props) => {
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [isServiceChecked, setIsServiceChecked] = useState(false);
   const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
-  const [isMarketingChecked, setIsMarketingChecked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -50,7 +55,7 @@ const TosPopUp = () => {
   return (
     <PopupContainer>
       <PopupHeader>
-        <CloseIcon src={closeIcon} alt="close icon" />
+        <CloseIcon src={closeIcon} alt="close icon" onClick={onClose} />
       </PopupHeader>
       <PopupTitle>
         <span>약관동의</span>

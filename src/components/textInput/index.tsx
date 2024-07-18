@@ -9,16 +9,41 @@ type Props = {
   onBlur?: () => void;
   value?: string;
   disabled?: boolean;
+  isPhoneNumber?: boolean;
 };
 
 const TextInput = forwardRef<HTMLInputElement, Props>(
-  ({ className, placeholder, onChange, onFocus, onBlur, value = '', disabled = false }, ref) => {
+  (
+    {
+      className,
+      placeholder,
+      onChange,
+      onFocus,
+      onBlur,
+      value = '',
+      disabled = false,
+      isPhoneNumber = false,
+    },
+    ref,
+  ) => {
     const [text, setText] = useState(value);
 
     const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
-      const value = ev.target.value;
+      let value = ev.target.value;
+      if (isPhoneNumber) {
+        value = formatPhoneNumber(value);
+      }
       setText(value);
       onChange({ value });
+    };
+
+    const formatPhoneNumber = (phoneNumber: string) => {
+      const cleaned = phoneNumber.replace(/\D/g, '');
+      const match = cleaned.match(/^(\d{0,3})(\d{0,4})(\d{0,4})$/);
+      if (match) {
+        return `${match[1]}${match[2] ? '-' + match[2] : ''}${match[3] ? '-' + match[3] : ''}`;
+      }
+      return phoneNumber;
     };
 
     return (

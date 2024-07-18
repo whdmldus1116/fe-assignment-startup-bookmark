@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
 export const DropUpContainer = styled.div`
-  margin: 300px;
   position: relative;
-  width: 320px;
+  width: 100%;
 `;
 
 const commonInputStyles = `
   width: 280px;
   height: 48px;
-  padding: 0 30px 0 15px;
+  padding: 0 25px 0 15px;
   border: 1px solid var(--default-border-color);
   border-radius: 4px;
   font-size: 14px;
@@ -34,6 +33,7 @@ export const StyledInput = styled.input`
 
 export const SelectedOptionsContainer = styled.div`
   ${commonInputStyles}
+  width: 100%;
   flex-wrap: wrap;
   gap: 5px;
   min-height: 48px;
