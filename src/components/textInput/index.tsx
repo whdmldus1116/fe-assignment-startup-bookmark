@@ -5,12 +5,14 @@ type Props = {
   className?: string;
   type?: string;
   placeholder?: string;
-  onChange: ({ value }: { value: string }) => void;
+  onChange: ({ value }: { [x: string]: any; value: string }) => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   value?: string;
   disabled?: boolean;
   isPhoneNumber?: boolean;
+  nextRef?: Ref<HTMLInputElement>;
 };
 
 const TextInput = forwardRef<HTMLInputElement, Props>(
@@ -22,9 +24,11 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
       onChange,
       onFocus,
       onBlur,
+      onKeyDown,
       value = '',
       disabled = false,
       isPhoneNumber = false,
+      nextRef,
     },
     ref,
   ) => {
@@ -48,6 +52,16 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
       return phoneNumber;
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter' && nextRef) {
+        e.preventDefault();
+        (nextRef as React.RefObject<HTMLInputElement>).current?.focus();
+      }
+      if (onKeyDown) {
+        onKeyDown(e);
+      }
+    };
+
     return (
       <StyledInput
         ref={ref as Ref<HTMLInputElement>}
@@ -58,6 +72,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
         onChange={handleChange}
         onFocus={onFocus}
         onBlur={onBlur}
+        onKeyDown={handleKeyDown}
         disabled={disabled}
       />
     );
