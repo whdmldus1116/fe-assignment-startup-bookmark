@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import AuthInput from '../authInput';
 import { SubmitBtn } from '../submitBtn';
 import TosPopUp from '../tosPopUp';
@@ -31,6 +31,17 @@ const SignUpForm = () => {
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
   const [istelValidValid, setIstelValidValid] = useState(false);
+
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const telRef = useRef<HTMLInputElement>(null);
+  const interestRef = useRef<HTMLDivElement>(null); // DropUp 컴포넌트를 위한 ref
+
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, []);
 
   const handleChange = (field: string) => async (value: string | string[]) => {
     setForm((prevForm) => ({
@@ -70,7 +81,8 @@ const SignUpForm = () => {
         isPasswordConfirmValid &&
         istelValidValid &&
         form.email.trim() !== '' &&
-        form.name.trim() !== '',
+        form.name.trim() !== '' &&
+        form.interestStartups.length > 0,
     );
   };
 
@@ -89,6 +101,13 @@ const SignUpForm = () => {
 
     if (!emailError && !nameError && !interestStartupsError) {
       setIsPopupOpen(true);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent, nextRef?: React.RefObject<HTMLElement>) => {
+    if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault();
+      nextRef?.current?.focus();
     }
   };
 
@@ -111,6 +130,8 @@ const SignUpForm = () => {
             error={errors.email !== ''}
             errorMessage={errors.email}
             onChange={({ value }) => handleChange('email')(value)}
+            ref={emailRef}
+            onKeyDown={(e) => handleKeyDown(e, passwordRef)}
           />
 
           {renderLabel('비밀번호')}
@@ -123,6 +144,8 @@ const SignUpForm = () => {
               handleChange('password')(value);
               handleChange('passwordConfirm')(form.passwordConfirm);
             }}
+            ref={passwordRef}
+            onKeyDown={(e) => handleKeyDown(e, passwordConfirmRef)}
           />
           <div style={{ height: '5px' }} />
           <AuthInput
@@ -131,6 +154,8 @@ const SignUpForm = () => {
             error={errors.passwordConfirm !== ''}
             errorMessage={errors.passwordConfirm}
             onChange={({ value }) => handleChange('passwordConfirm')(value)}
+            ref={passwordConfirmRef}
+            onKeyDown={(e) => handleKeyDown(e, nameRef)}
           />
 
           {renderLabel('이름')}
@@ -139,6 +164,8 @@ const SignUpForm = () => {
             error={errors.name !== ''}
             errorMessage={errors.name}
             onChange={({ value }) => handleChange('name')(value)}
+            ref={nameRef}
+            onKeyDown={(e) => handleKeyDown(e, telRef)}
           />
 
           {renderLabel('휴대폰 번호')}
@@ -149,6 +176,8 @@ const SignUpForm = () => {
             errorMessage={errors.tel}
             onChange={({ value }) => handleChange('tel')(value)}
             isTel={true}
+            ref={telRef}
+            onKeyDown={(e) => handleKeyDown(e, interestRef)}
           />
 
           {renderLabel('관심 스타트업 분야')}
