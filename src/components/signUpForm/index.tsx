@@ -4,6 +4,7 @@ import AuthInput from '../authInput';
 import { SubmitBtn } from '../submitBtn';
 import TosPopUp from '../tosPopUp';
 import { ValidateInput } from '../../utils/validateInput';
+import DropUp from '../dropUp';
 
 const SignUpForm = () => {
   const [form, setForm] = useState({
@@ -148,13 +149,8 @@ const SignUpForm = () => {
         />
 
         {renderLabel('관심 스타트업 분야')}
-        <AuthInput
-          placeholder="선택해주세요"
-          error={errors.interested !== ''}
-          errorMessage={errors.interested}
-          onChange={({ value }) => handleChange('interested')(value)}
-        />
-        {/* TODO: 스타트업 드롭다운 */}
+        <DropUp onChange={(value) => handleChange('interested')(value)} />
+        {errors.interested && <ErrorMessage>{errors.interested}</ErrorMessage>}
       </FormContainer>
 
       {isPopupOpen && (
@@ -181,6 +177,12 @@ const Label = styled.label`
   color: var(--label-text-color);
   margin-top: 16px;
   margin-bottom: 10px;
+`;
+
+const ErrorMessage = styled.span`
+  color: var(--error-color);
+  font-size: 12px;
+  margin-top: 8px;
 `;
 
 export default SignUpForm;
