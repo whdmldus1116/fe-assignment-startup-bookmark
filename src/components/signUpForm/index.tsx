@@ -115,6 +115,7 @@ const SignUpForm = () => {
         {renderLabel('비밀번호')}
         <AuthInput
           placeholder="비밀번호를 입력해주세요 (8자리 이상)"
+          type="password"
           error={errors.password !== '' && errors.password !== '비밀번호 안전도 높음'}
           errorMessage={errors.password}
           onChange={({ value }) => {
@@ -125,6 +126,7 @@ const SignUpForm = () => {
         <div style={{ height: '5px' }} />
         <AuthInput
           placeholder="다시 한 번 비밀번호를 입력해주세요"
+          type="password"
           error={errors.passwordConfirm !== ''}
           errorMessage={errors.passwordConfirm}
           onChange={({ value }) => handleChange('passwordConfirm')(value)}

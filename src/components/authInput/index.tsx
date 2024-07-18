@@ -3,6 +3,7 @@ import { Container, StyledTextInput, ErrorIcon, ErrorMessage } from './styles';
 
 type Props = {
   className?: string;
+  type?: string;
   placeholder?: string;
   onChange: ({ value }: { value: string }) => void;
   onFocus?: () => void;
@@ -17,6 +18,7 @@ type Props = {
 
 const AuthInput = ({
   className,
+  type,
   placeholder,
   onChange,
   onFocus,
@@ -41,6 +43,7 @@ const AuthInput = ({
     <Container>
       <StyledTextInput
         className={className}
+        type={type}
         placeholder={placeholder}
         onChange={handleChange}
         onFocus={onFocus}

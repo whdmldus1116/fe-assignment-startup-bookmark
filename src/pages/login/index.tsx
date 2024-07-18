@@ -5,7 +5,6 @@ import Header from '../../components/header';
 import LineText from '../../components/lineText';
 import {
   Container,
-  Title,
   ErrorMessage,
   Divider,
   TextInputWrapper,
@@ -13,6 +12,13 @@ import {
   SignUpBtnWrapper,
 } from './styles';
 import { GoToSignUpBtn, SubmitBtn } from '../../components/submitBtn';
+import axios from 'axios';
+import { TitleStyle } from '../../components/title/styles';
+
+type LoginPayload = {
+  email: string; // 회원가입한 이메일
+  password: string; // 회원가입한 비밀번호
+};
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -54,24 +60,31 @@ const LoginScreen = () => {
     setPassword(value);
   };
 
-  const handleLogin = () => {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = storedUsers.find(
-      (user: { email: string; password: string }) =>
-        user.email === email && user.password === password,
-    );
-    if (user) {
-      navigate('/startupList');
-    } else {
-      alert('아이디/비밀번호를 확인해주세요');
+  const handleLogin = async () => {
+    const payload: LoginPayload = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post('api/login', payload);
+      console.log(response);
+
+      if (response.status === 200) {
+        navigate('/startupList');
+      } else {
+        alert('아이디/비밀번호를 확인해주세요');
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
     <>
-      <Header isLoggedIn={false} currentPath={window.location.pathname} username={'유니콘'} />
+      <Header isLoggedIn={false} currentPath={'/login'} />
       <Container>
-        <Title>로그인</Title>
+        <TitleStyle>로그인</TitleStyle>
 
         <TextInputWrapper>
           <TextInput
@@ -87,6 +100,7 @@ const LoginScreen = () => {
         <TextInputWrapper>
           <TextInput
             placeholder="비밀번호를 입력해주세요"
+            type="password"
             value={password}
             onChange={handlePasswordChange}
             onFocus={() => setPasswordError('')}
