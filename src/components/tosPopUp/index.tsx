@@ -62,11 +62,13 @@ const TosPopUp = ({ signupForm, onClose, isMarketingChecked, setIsMarketingCheck
   const handleSubmit = async () => {
     const payload: SignupPayload = {
       ...signupForm,
+      tel: signupForm.tel.replace(/-/g, ''),
       marketingAgreed: isMarketingChecked,
     };
 
     try {
       const response = await axios.post('/api/signup', payload);
+
       if (response.status === 201) {
         onClose();
         navigate('/login');
