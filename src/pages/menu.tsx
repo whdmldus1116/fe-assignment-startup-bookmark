@@ -1,8 +1,20 @@
+import { useEffect } from 'react';
 import Header from '../components/header';
 import { TitleStyle } from '../components/title/styles';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const MenuScreen = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      alert('로그인 해주세요!');
+      navigate('/login');
+      return;
+    }
+  }, []);
+
   const menuItems = [
     { name: '홈', link: '/startupList' },
     { name: '북마크', link: '/bookMark' },
@@ -10,7 +22,7 @@ const MenuScreen = () => {
 
   return (
     <>
-      <Header isLoggedIn={true} currentPath="/menu" username={'꿍꿍꿍'} />
+      <Header isLoggedIn={true} currentPath="/menu" />
       <MenuContainer>
         <TitleStyle>메뉴</TitleStyle>
         <hr style={{ width: '100%', borderBottom: '1px solid #e8ecf2' }} />

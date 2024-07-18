@@ -3,27 +3,32 @@ import axios from 'axios';
 import { PageContainer, Title, CardGrid } from './styles';
 import Header from '../../components/header';
 import Card from '../../components/card';
+import { useNavigate } from 'react-router-dom';
 
 const BookmarkScreen = () => {
+  const navigate = useNavigate();
+
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [username, setUsername] = useState<string>('');
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('/api/user', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setUsername(response.data.username);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+    try {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      if (user && user.name) {
+        setUsername(user.name);
+      } else {
+        console.error('No username found in localStorage');
       }
-    };
+    } catch (error) {
+      console.error('Error parsing user from localStorage', error);
+    }
+
+    if (!localStorage.getItem('token')) {
+      alert('로그인 해주세요!');
+      navigate('/login');
+      return;
+    }
 
     const fetchBookmarkedStartups = async () => {
       try {
@@ -43,7 +48,6 @@ const BookmarkScreen = () => {
       }
     };
 
-    fetchUserData();
     fetchBookmarkedStartups();
   }, []);
 
