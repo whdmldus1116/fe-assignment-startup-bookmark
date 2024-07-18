@@ -84,7 +84,7 @@ const validateName = (value: string) => {
   return '';
 };
 
-export const validatePhoneNumber = async (phoneNumber: string): Promise<string> => {
+export const validatePhoneNumber = async (phoneNumber: string) => {
   const phoneNumberWithoutHyphen = phoneNumber.replace(/-/g, '');
   if (!/^\d+$/.test(phoneNumberWithoutHyphen)) {
     return '숫자만 입력 가능합니다.';
@@ -97,12 +97,11 @@ export const validatePhoneNumber = async (phoneNumber: string): Promise<string> 
 
   try {
     const response = await axios.post('/api/check-tel', payload);
-    if (response.status === 400) {
-      return '이미 등록된 휴대폰 번호입니다.';
+    if (response.status === 204) {
+      return '';
     }
-    return '';
   } catch (error) {
     console.error(error);
-    return '오류가 발생했습니다. 다시 시도해주세요.';
+    return '이미 등록된 휴대폰 번호입니다.';
   }
 };
