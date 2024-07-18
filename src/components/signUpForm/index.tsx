@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import AuthInput from '../authInput';
 import { SubmitBtn } from '../submitBtn';
 import TosPopUp from '../tosPopUp';
-import { ValidateInput } from '../../utils/validateInput';
+import { ValidateInput, validatePhoneNumber } from '../../utils/validateInput';
 import DropUp from '../dropUp';
 
 const SignUpForm = () => {
@@ -32,7 +32,7 @@ const SignUpForm = () => {
   const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
   const [istelValidValid, setIstelValidValid] = useState(false);
 
-  const handleChange = (field: string) => (value: string | string[]) => {
+  const handleChange = (field: string) => async (value: string | string[]) => {
     setForm((prevForm) => ({
       ...prevForm,
       [field]: value,
@@ -55,7 +55,7 @@ const SignUpForm = () => {
         }
         break;
       case 'tel':
-        error = ValidateInput({ type: 'tel', value: value as string });
+        error = await validatePhoneNumber(value as string);
         setIstelValidValid(error === '');
         break;
     }
