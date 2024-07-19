@@ -16,17 +16,20 @@ export const CardWrapper = styled.div`
   }
 `;
 
-export const Image = styled.div<{ fallbackColor: string }>`
+export const ImageWrapper = styled.div<{ fallbackColor: string }>`
   width: 295px;
   height: 190px;
-  background-image: url(${(props) => props.src});
-  background-size: cover;
-  background-position: center;
   background-color: ${(props) => props.fallbackColor};
 
   @media (max-width: 768px) {
     height: 116px;
   }
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export const ContentWrapper = styled.div`

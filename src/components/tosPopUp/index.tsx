@@ -30,12 +30,12 @@ type Props = {
 };
 
 type SignupPayload = {
-  email: string; // 이메일 주소
-  password: string; // 비밀번호
-  name: string; // 이름
-  tel: string; // 전화번호
-  interestStartups: string[]; // 관심 스타트업 분야
-  marketingAgreed: boolean; // 마케팅 활용 동의
+  email: string;
+  password: string;
+  name: string;
+  tel: string;
+  interestStartups: string[];
+  marketingAgreed: boolean;
 };
 
 const TosPopUp = ({ signupForm, onClose, isMarketingChecked, setIsMarketingChecked }: Props) => {

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import Header from '../components/header';
 import { TitleStyle } from '../components/title/styles';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { To, useNavigate } from 'react-router-dom';
 
 const MenuScreen = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const MenuScreen = () => {
     }
   }, [navigate]);
 
-  const handleItemClick = (link, action) => {
+  const handleItemClick = (link: To, action: string | undefined) => {
     if (action === 'logout') {
       localStorage.removeItem('token');
       localStorage.removeItem('user');

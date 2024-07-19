@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CardWrapper,
+  ImageWrapper,
   Image,
   ContentWrapper,
   Tag,
@@ -23,7 +24,6 @@ type Props = {
 };
 
 const Card = ({
-  id,
   title,
   tag,
   description,
@@ -34,21 +34,23 @@ const Card = ({
 }: Props) => {
   const [isBookmarked, setIsBookmarked] = useState(bookmark);
 
+  useEffect(() => {
+    setIsBookmarked(bookmark);
+  }, [bookmark]);
+
   const handleBookmarkClick = async () => {
     setIsBookmarked(!isBookmarked);
-    onBookmark(); // 부모 컴포넌트로 북마크 이벤트 전달
+    onBookmark();
   };
 
-  const updatedThumbnailImageUrl = thumbnailImageUrl.replace('i.picsum.photos', 'picsum.photos'); // 링크 변환
+  const updatedThumbnailImageUrl = thumbnailImageUrl.replace('i.picsum.photos', 'picsum.photos');
 
   return (
     <CardWrapper>
       <Tag>{tag}</Tag>
-      <Image
-        src={updatedThumbnailImageUrl}
-        alt="Background"
-        fallbackColor={thumbnailFallbackColor}
-      />
+      <ImageWrapper fallbackColor={thumbnailFallbackColor}>
+        <Image src={updatedThumbnailImageUrl} alt="Background" />
+      </ImageWrapper>
       <ContentWrapper>
         <Title>{title}</Title>
         <Description>{description}</Description>
