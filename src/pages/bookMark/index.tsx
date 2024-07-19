@@ -4,12 +4,12 @@ import { PageContainer, Title, CardGrid } from './styles';
 import Header from '../../components/header';
 import Card from '../../components/card';
 import { useNavigate } from 'react-router-dom';
-import { fetchUserData } from 'utils/fetchUserData';
+import { fetchUserData } from '../../utils/fetchUserData';
 
 const BookmarkScreen = () => {
   const navigate = useNavigate();
   const isMobile = window.innerWidth < 768;
-  
+
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [username, setUsername] = useState<string>('');

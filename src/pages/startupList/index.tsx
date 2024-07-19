@@ -5,12 +5,12 @@ import Header from '../../components/header';
 import Card from '../../components/card';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
-import { fetchUserData } from 'utils/fetchUserData';
+import { fetchUserData } from '../../utils/fetchUserData';
 
 const StartupScreen = () => {
   const navigate = useNavigate();
   const isMobile = window.innerWidth < 768;
-  
+
   const [startups, setStartups] = useState<any[]>([]);
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
