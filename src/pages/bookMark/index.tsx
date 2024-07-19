@@ -8,7 +8,8 @@ import { fetchUserData } from 'utils/fetchUserData';
 
 const BookmarkScreen = () => {
   const navigate = useNavigate();
-
+  const isMobile = window.innerWidth < 768;
+  
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [username, setUsername] = useState<string>('');
@@ -77,9 +78,9 @@ const BookmarkScreen = () => {
 
   return (
     <>
-      <Header isLoggedIn={true} currentPath="/bookmark" username={username} />
+      <Header isMobile={isMobile} isLoggedIn={true} currentPath="/bookMark" username={username} />
       <PageContainer>
-        <Title>북마크</Title>
+        {!isMobile && <Title>북마크</Title>}
         <CardGrid>
           {bookmarkedStartups.map((startup: any) => (
             <Card
