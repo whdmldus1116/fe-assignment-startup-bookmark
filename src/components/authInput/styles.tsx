@@ -13,6 +13,13 @@ export const StyledTextInput = styled(TextInput)<{ error: boolean }>`
   }
 `;
 
+export const StyledPasswordInput = styled(TextInput)<{ error: boolean }>`
+  border-color: ${(props) => (props.error ? 'var(--error-color)' : 'var(--default-border-color)')};
+  &:focus {
+    border-color: ${(props) => (props.error ? 'var(--error-color)' : 'var(--focus-border-color)')};
+  }
+`;
+
 export const ErrorIcon = styled.img`
   position: absolute;
   right: 10px;

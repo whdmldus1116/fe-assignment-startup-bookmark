@@ -6,6 +6,8 @@ import TosPopUp from '../tosPopUp';
 import { ValidateInput, validatePhoneNumber } from '../../utils/validateInput';
 import DropUp from '../dropUp';
 
+type PasswordValidType = 'high' | 'medium' | 'low' | '';
+
 const SignUpForm = () => {
   const [form, setForm] = useState({
     email: '',
@@ -15,7 +17,15 @@ const SignUpForm = () => {
     tel: '',
     interestStartups: [] as string[],
   });
-  const [errors, setErrors] = useState({
+  const [isValid, setIsValid] = useState({
+    email: false,
+    password: false,
+    passwordConfirm: false,
+    name: false,
+    tel: false,
+    interestStartups: false,
+  });
+  const [errorMessages, setErrorMessages] = useState({
     email: '',
     password: '',
     passwordConfirm: '',
@@ -24,13 +34,10 @@ const SignUpForm = () => {
     interestStartups: '',
   });
 
-  const [isValid, setIsValid] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isMarketingChecked, setIsMarketingChecked] = useState(false);
 
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
-  const [istelValidValid, setIstelValidValid] = useState(false);
+  const [passwordValidType, setPasswordValidType] = useState<PasswordValidType>('');
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -43,63 +50,100 @@ const SignUpForm = () => {
     emailRef.current?.focus();
   }, []);
 
-  const handleChange = (field: string) => async (value: string | string[]) => {
+  const handleChange = (field: keyof typeof form) => async (value: string | string[]) => {
     setForm((prevForm) => ({
       ...prevForm,
       [field]: value,
     }));
 
-    let error = '';
+    let errorMessage = '';
+    let valid = true;
+
     switch (field) {
-      case 'password':
-        error = ValidateInput({ type: 'password', value: value as string });
-        // TODO: Fix: 비밀번호 안전도 높음일 때 error 안뜨는 문제
-        setIsPasswordValid(error === '비밀번호 안전도 높음');
+      case 'name':
+        errorMessage = ValidateInput({ type: field, value: value as string });
+        valid = !errorMessage;
         break;
-      case 'passwordConfirm':
-        if (value !== '') {
-          error = ValidateInput({
-            type: 'passwordConfirm',
-            value: { password: form.password, passwordConfirm: value as string },
-          });
-          setIsPasswordConfirmValid(error === '');
+      case 'password':
+        errorMessage = ValidateInput({ type: 'password', value: value as string });
+
+        if (errorMessage === '비밀번호는 8자리 이상, 15자리 이하로 입력해주세요.') {
+          setPasswordValidType('');
+          valid = false;
+        } else if (errorMessage.includes('높음')) {
+          setPasswordValidType('high');
+          valid = true;
+        } else if (errorMessage.includes('보통')) {
+          setPasswordValidType('medium');
+          valid = true;
+        } else if (errorMessage.includes('낮음')) {
+          setPasswordValidType('low');
+          valid = false;
         }
         break;
+      case 'passwordConfirm':
+        if (value === '') {
+          break;
+        }
+        errorMessage = ValidateInput({
+          type: 'passwordConfirm',
+          value: { password: form.password, passwordConfirm: value as string },
+        });
+        valid = !errorMessage;
+        break;
       case 'tel':
-        error = await validatePhoneNumber(value as string);
-        setIstelValidValid(error === '');
+        errorMessage = await validatePhoneNumber(value as string);
+        valid = !errorMessage;
+        break;
+      case 'interestStartups':
+        valid = (value as string[]).length > 0;
+        errorMessage = valid ? '' : '관심 스타트업 분야를 선택해주세요.';
+        break;
+      default:
         break;
     }
 
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [field]: error,
+    setIsValid((prevValid) => ({
+      ...prevValid,
+      [field]: valid,
     }));
 
-    setIsValid(
-      isPasswordValid &&
-        isPasswordConfirmValid &&
-        istelValidValid &&
-        form.email.trim() !== '' &&
-        form.name.trim() !== '' &&
-        form.interestStartups.length > 0,
-    );
+    setErrorMessages((prevErrors) => ({
+      ...prevErrors,
+      [field]: errorMessage,
+    }));
   };
 
   const onClickNextBtn = () => {
-    const emailError = ValidateInput({ type: 'email', value: form.email });
-    const nameError = ValidateInput({ type: 'name', value: form.name });
-    const interestStartupsError =
+    const emailErrorMessage = ValidateInput({ type: 'email', value: form.email });
+    const nameErrorMessage = ValidateInput({ type: 'name', value: form.name });
+    const interestStartupsErrorMessage =
       form.interestStartups.length === 0 ? '관심 스타트업 분야를 선택해주세요.' : '';
 
-    setErrors((prevErrors) => ({
+    setIsValid({
+      ...isValid,
+      email: !emailErrorMessage,
+      name: !nameErrorMessage,
+      interestStartups: !interestStartupsErrorMessage,
+    });
+
+    setErrorMessages({
+      email: emailErrorMessage,
+      name: nameErrorMessage,
+      interestStartups: interestStartupsErrorMessage,
+      password: errorMessages.password,
+      passwordConfirm: errorMessages.passwordConfirm,
+      tel: errorMessages.tel,
+    });
+
+    setErrorMessages((prevErrors) => ({
       ...prevErrors,
-      email: emailError,
-      name: nameError,
-      interestStartups: interestStartupsError,
+      email: emailErrorMessage,
+      name: nameErrorMessage,
+      interestStartups: interestStartupsErrorMessage,
     }));
 
-    if (!emailError && !nameError && !interestStartupsError) {
+    if (!emailErrorMessage && !nameErrorMessage && !interestStartupsErrorMessage) {
       setIsPopupOpen(true);
     }
   };
@@ -124,11 +168,10 @@ const SignUpForm = () => {
         <FormContainer>
           {renderLabel('이메일 (아이디)')}
           <AuthInput
-            className="email"
             placeholder="이메일을 입력해주세요"
             value={form.email}
-            error={errors.email !== ''}
-            errorMessage={errors.email}
+            error={!isValid.email && Boolean(errorMessages.email)}
+            errorMessage={errorMessages.email}
             onChange={({ value }) => handleChange('email')(value)}
             ref={emailRef}
             onKeyDown={(e) => handleKeyDown(e, passwordRef)}
@@ -136,10 +179,12 @@ const SignUpForm = () => {
 
           {renderLabel('비밀번호')}
           <AuthInput
+            className="password"
             placeholder="비밀번호를 입력해주세요 (8자리 이상)"
             type="password"
-            error={errors.password !== '' && errors.password !== '비밀번호 안전도 높음'}
-            errorMessage={errors.password}
+            error={!isValid.password && Boolean(errorMessages.password)}
+            errorType={passwordValidType}
+            errorMessage={errorMessages.password}
             onChange={({ value }) => {
               handleChange('password')(value);
               handleChange('passwordConfirm')(form.passwordConfirm);
@@ -151,8 +196,8 @@ const SignUpForm = () => {
           <AuthInput
             placeholder="다시 한 번 비밀번호를 입력해주세요"
             type="password"
-            error={errors.passwordConfirm !== ''}
-            errorMessage={errors.passwordConfirm}
+            error={!isValid.passwordConfirm && Boolean(errorMessages.passwordConfirm)}
+            errorMessage={errorMessages.passwordConfirm}
             onChange={({ value }) => handleChange('passwordConfirm')(value)}
             ref={passwordConfirmRef}
             onKeyDown={(e) => handleKeyDown(e, nameRef)}
@@ -161,8 +206,8 @@ const SignUpForm = () => {
           {renderLabel('이름')}
           <AuthInput
             placeholder="예) 홍길동"
-            error={errors.name !== ''}
-            errorMessage={errors.name}
+            error={!isValid.name && Boolean(errorMessages.name)}
+            errorMessage={errorMessages.name}
             onChange={({ value }) => handleChange('name')(value)}
             ref={nameRef}
             onKeyDown={(e) => handleKeyDown(e, telRef)}
@@ -172,8 +217,8 @@ const SignUpForm = () => {
           <AuthInput
             placeholder="휴대폰 번호를 입력해주세요"
             value={form.tel}
-            error={errors.tel !== ''}
-            errorMessage={errors.tel}
+            error={!isValid.tel && Boolean(errorMessages.tel)}
+            errorMessage={errorMessages.tel}
             onChange={({ value }) => handleChange('tel')(value)}
             isTel={true}
             ref={telRef}
@@ -182,7 +227,9 @@ const SignUpForm = () => {
 
           {renderLabel('관심 스타트업 분야')}
           <DropUp onChange={(value) => handleChange('interestStartups')(value)} />
-          {errors.interestStartups && <ErrorMessage>{errors.interestStartups}</ErrorMessage>}
+          {errorMessages.interestStartups && (
+            <ErrorMessage>{errorMessages.interestStartups}</ErrorMessage>
+          )}
         </FormContainer>
       </div>
 
@@ -195,7 +242,11 @@ const SignUpForm = () => {
         />
       )}
 
-      <SubmitBtn type="next" isActive={isValid} onClick={onClickNextBtn} />
+      <SubmitBtn
+        type="next"
+        isActive={isValid.password && isValid.passwordConfirm && isValid.tel}
+        onClick={onClickNextBtn}
+      />
     </>
   );
 };

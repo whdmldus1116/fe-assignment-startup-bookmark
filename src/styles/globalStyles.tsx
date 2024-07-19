@@ -5,6 +5,7 @@ const GlobalStyles = createGlobalStyle`
     --error-color: #F00001;
     --default-border-color: #D1D1D1;
     --focus-border-color: #006EFF;
+    --medium-password-color: #F09A00;
 
     --placeholder-color: #b3b3b3;
     --input-text-color: #616161;
