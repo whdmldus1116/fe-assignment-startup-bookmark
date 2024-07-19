@@ -1,17 +1,30 @@
+import { useEffect } from 'react';
 import Header from '../components/header';
 import { TitleStyle } from '../components/title/styles';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const MenuScreen = () => {
+  const navigate = useNavigate();
+
   const isMobile = window.innerWidth < 768;
   const menuItems = [
     { name: '홈', link: '/startupList' },
     { name: '북마크', link: '/bookMark' },
   ];
 
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      alert('로그인 해주세요!');
+      navigate('/login');
+      return;
+    }
+  }, []);
+
   return (
     <>
-      <Header isMobile={isMobile} isLoggedIn={true} currentPath="/menu" username={'꿍꿍꿍'} />
+      <Header isMobile={isMobile} isLoggedIn={true} currentPath="/menu"/>
+      
       <MenuContainer>
         {!isMobile && (
           <>
@@ -19,6 +32,7 @@ const MenuScreen = () => {
             <hr style={{ width: '100%', borderBottom: '1px solid #e8ecf2' }} />
           </>
         )}
+        
         {menuItems.map((item, index) => (
           <Item key={index} href={item.link}>
             <span>{item.name}</span>

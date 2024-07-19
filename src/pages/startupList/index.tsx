@@ -4,10 +4,13 @@ import { PageContainer, Title, CardGrid } from './styles';
 import Header from '../../components/header';
 import Card from '../../components/card';
 import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
+import { fetchUserData } from 'utils/fetchUserData';
 
 const StartupScreen = () => {
+  const navigate = useNavigate();
   const isMobile = window.innerWidth < 768;
-
+  
   const [startups, setStartups] = useState<any[]>([]);
   const [bookmarkedStartups, setBookmarkedStartups] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -17,20 +20,16 @@ const StartupScreen = () => {
 
   const { ref, inView } = useInView();
 
-  const fetchUserData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('/api/user', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  useEffect(() => {
+    const name = fetchUserData();
+    setUsername(name);
 
-      setUsername(response.data.username);
-    } catch (error) {
-      console.error('Error fetching user data:', error);
+    if (!localStorage.getItem('token')) {
+      alert('로그인 해주세요!');
+      navigate('/login');
+      return;
     }
-  };
+  }, []);
 
   const fetchStartups = useCallback(async () => {
     if (!hasMore) return;
@@ -69,10 +68,6 @@ const StartupScreen = () => {
       setLoading(false);
     }
   }, [page, hasMore]);
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
   useEffect(() => {
     fetchStartups();
