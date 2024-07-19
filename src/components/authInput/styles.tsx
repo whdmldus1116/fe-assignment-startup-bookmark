@@ -6,7 +6,16 @@ export const Container = styled.div`
   width: 100%;
 `;
 
+const resetInputStyles = `
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+`;
+
 export const StyledTextInput = styled(TextInput)<{ error: boolean }>`
+  ${resetInputStyles}
+
   border-color: ${(props) => (props.error ? 'var(--error-color)' : 'var(--default-border-color)')};
   &:focus {
     border-color: ${(props) => (props.error ? 'var(--error-color)' : 'var(--focus-border-color)')};
@@ -14,6 +23,8 @@ export const StyledTextInput = styled(TextInput)<{ error: boolean }>`
 `;
 
 export const StyledPasswordInput = styled(TextInput)<{ error: boolean }>`
+  ${resetInputStyles}
+
   border-color: ${(props) => (props.error ? 'var(--error-color)' : 'var(--default-border-color)')};
   &:focus {
     border-color: ${(props) => (props.error ? 'var(--error-color)' : 'var(--focus-border-color)')};
