@@ -11,6 +11,7 @@ const MenuScreen = () => {
   const menuItems = [
     { name: '홈', link: '/startupList' },
     { name: '북마크', link: '/bookMark' },
+    { name: '로그아웃', link: '/login', action: 'logout' },
   ];
 
   useEffect(() => {
@@ -19,12 +20,22 @@ const MenuScreen = () => {
       navigate('/login');
       return;
     }
-  }, []);
+  }, [navigate]);
+
+  const handleItemClick = (link, action) => {
+    if (action === 'logout') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      navigate('/login');
+    } else {
+      navigate(link);
+    }
+  };
 
   return (
     <>
-      <Header isMobile={isMobile} isLoggedIn={true} currentPath="/menu"/>
-      
+      <Header isMobile={isMobile} isLoggedIn={true} currentPath="/menu" />
+
       <MenuContainer>
         {!isMobile && (
           <>
@@ -32,9 +43,9 @@ const MenuScreen = () => {
             <hr style={{ width: '100%', borderBottom: '1px solid #e8ecf2' }} />
           </>
         )}
-        
+
         {menuItems.map((item, index) => (
-          <Item key={index} href={item.link}>
+          <Item key={index} onClick={() => handleItemClick(item.link, item.action)}>
             <span>{item.name}</span>
           </Item>
         ))}
@@ -54,7 +65,7 @@ const MenuContainer = styled.div`
   }
 `;
 
-const Item = styled.a`
+const Item = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
