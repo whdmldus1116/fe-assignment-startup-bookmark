@@ -1,7 +1,7 @@
 import {
   HeaderActionButton,
   Divider,
-  HeaderContainer,
+  DesktopHeaderContainer,
   UserName,
   ProfileIcon,
   MenuIcon,
@@ -84,7 +84,7 @@ const Header = ({ isMobile, isLoggedIn, currentPath, username }: Props) => {
   };
 
   const renderDesktopHeader = () => (
-    <HeaderContainer path={currentPath}>
+    <DesktopHeaderContainer path={currentPath}>
       {isLoggedIn ? (
         currentPath === '/menu' ? (
           <CloseIcon src={closeIcon} alt="close icon" onClick={navigateToBack} />
@@ -94,7 +94,7 @@ const Header = ({ isMobile, isLoggedIn, currentPath, username }: Props) => {
       ) : (
         renderLoggedOutContent()
       )}
-    </HeaderContainer>
+    </DesktopHeaderContainer>
   );
 
   return isMobile ? renderMobileHeader() : renderDesktopHeader();

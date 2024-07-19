@@ -21,6 +21,8 @@ type LoginPayload = {
 };
 
 const LoginScreen = () => {
+  const isMobile = window.innerWidth < 768;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -107,7 +109,7 @@ const LoginScreen = () => {
 
   return (
     <>
-      <Header isLoggedIn={false} currentPath={'/login'} />
+      <Header isMobile={isMobile} isLoggedIn={false} currentPath={'/login'} />
       <Container onKeyDown={handleFormKeyDown}>
         <TitleStyle>로그인</TitleStyle>
 

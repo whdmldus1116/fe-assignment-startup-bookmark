@@ -1,13 +1,22 @@
 import styled from 'styled-components';
 
-export const HeaderContainer = styled.header<{ path: string }>`
+export const DesktopHeaderContainer = styled.header<{ path: string }>`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   height: 60px;
   padding: 0 20px;
   border-bottom: ${({ path }) =>
     path === '/menu' ? 'none' : '1px solid var(--placeholder-color)'};
+`;
+
+export const MobileHeaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--placeholder-color);
 `;
 
 export const HeaderActionButton = styled.button<{ active: boolean }>`
@@ -71,21 +80,14 @@ export const CloseIcon = styled.img`
   cursor: pointer;
 `;
 
-export const MobileHeaderContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--placeholder-color);
-`;
-
 export const MobileTitle = styled.h1`
   font-size: 20px;
   color: var(--default-text-color);
 `;
 
 export const MobileText = styled.span`
+  position: absolute;
   font-size: 14px;
   color: var(--input-text-color);
+  right: 20px;
 `;
