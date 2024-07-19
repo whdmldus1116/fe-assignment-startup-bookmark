@@ -79,7 +79,16 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
   },
 );
 
+const resetInputStyles = `
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+`;
+
 const StyledInput = styled.input`
+  ${resetInputStyles}
+
   width: 295px;
   height: 25px;
   padding: 12px;
