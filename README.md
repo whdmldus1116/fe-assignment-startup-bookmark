@@ -22,27 +22,22 @@ yarn dev
 
 ### ⚙️ 사용한 라이브러리
 
-- `axios` ![axios](https://img.shields.io/npm/v/axios.svg)
-
+- `axios` ![Yarn](https://img.shields.io/badge/yarn-v1.7.2-blue)
   - API 호출을 위해 사용했습니다.
-
-- `react-responsive` ![react-responsive](https://img.shields.io/npm/v/react-responsive.svg)
-
+    
+- `react-responsive` ![Yarn](https://img.shields.io/badge/yarn-v10.0.0-blue)
   - 반응형 디자인을 위해 사용했습니다.
-
-- `react-router-dom` ![react-router-dom](https://img.shields.io/npm/v/react-router-dom.svg)
-
+    
+- `react-router-dom` ![Yarn](https://img.shields.io/badge/yarn-v6.25.1-blue)
   - 라우팅을 위해 사용했습니다.
-
-- `styled-components` ![styled-components](https://img.shields.io/npm/v/styled-components.svg)
-
+    
+- `styled-components` ![Yarn](https://img.shields.io/badge/yarn-v6.1.12-blue)
   - 글로벌 스타일 및 컴포넌트 스타일링을 위해 사용했습니다.
-
-- `react-intersection-observer` ![react-intersection-observer](https://img.shields.io/npm/v/react-intersection-observer.svg)
-
+    
+- `react-intersection-observer` ![Yarn](https://img.shields.io/badge/yarn-v9.13.0-blue)
   - 무한 스크롤을 구현하기 위해 사용했습니다.
-
-- `react-query` ![react-query](https://img.shields.io/npm/v/react-query.svg)
+    
+- `react-query` ![Yarn](https://img.shields.io/badge/yarn-v3.39.3-blue)
   - 서버 상태 관리를 위해 사용했습니다.
 
 <br/>
