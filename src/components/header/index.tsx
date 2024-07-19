@@ -11,8 +11,8 @@ import {
   MobileHeaderContainer,
   UserProfile,
 } from './styles';
-import menuIcon from '../../assets/menu.png';
-import closeIcon from '../../assets/close.png';
+import menuIcon from '/src/assets/menu.png';
+import closeIcon from '/src/assets/close.png';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {

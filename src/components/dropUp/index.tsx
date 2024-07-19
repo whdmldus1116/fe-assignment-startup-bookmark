@@ -11,6 +11,8 @@ import {
   SelectedOptionsContainer,
   SelectedOption,
 } from './styles';
+import dropupImg from '/src/assets/dropUp.png';
+import dropdownImg from '/src/assets/dropDown.png';
 
 type Props = {
   onChange: (selectedOptions: string[]) => void;
@@ -58,10 +60,7 @@ const DropUp = ({ onChange }: Props) => {
         <StyledInput value="" placeholder="선택해주세요" readOnly onClick={toggleDropUp} />
       )}
       <DropUpButton onClick={toggleDropUp}>
-        <ArrowIcon
-          src={isOpen ? '/src/assets/dropUp.png' : '/src/assets/dropDown.png'}
-          alt="arrow"
-        />
+        <ArrowIcon src={isOpen ? dropupImg : dropdownImg} alt="arrow" />
       </DropUpButton>
       {isOpen && (
         <OptionList>
