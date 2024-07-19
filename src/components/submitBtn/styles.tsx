@@ -15,7 +15,7 @@ export const SubmitBtnStyle = styled.button<{ location: string }>`
       @media (max-width: 768px) {
         position: fixed;
         bottom: 20px;
-        width: calc(100% - 40px); // 화면 양쪽에 20px 여백을 주기 위해
+        width: calc(100% - 40px); 
         left: 20px;
       }
     `}

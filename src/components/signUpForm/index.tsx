@@ -37,7 +37,7 @@ const SignUpForm = () => {
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const telRef = useRef<HTMLInputElement>(null);
-  const interestRef = useRef<HTMLDivElement>(null); // DropUp 컴포넌트를 위한 ref
+  const interestRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     emailRef.current?.focus();

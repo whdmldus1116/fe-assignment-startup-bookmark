@@ -5,7 +5,6 @@ import { Global } from '@emotion/react';
 import GlobalStyles from './styles/globalStyles';
 import { reset } from './styles/reset';
 
-//
 import App from './App';
 import initializeMockupWorker from '@/__mock__';
 
