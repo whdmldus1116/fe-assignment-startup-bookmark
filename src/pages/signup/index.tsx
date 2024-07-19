@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpScreen = () => {
+  const isMobile = window.innerWidth < 768;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const SignUpScreen = () => {
 
   return (
     <>
-      <Header isLoggedIn={false} currentPath="/signup" />
+      <Header isMobile={isMobile} isLoggedIn={false} currentPath="/signup" />
       <SignUpContainer>
         <TitleStyle>회원가입</TitleStyle>
         <LineText text="이미 계정이 있으신가요?" textLine={true} />
