@@ -17,6 +17,7 @@ const StartupScreen = () => {
   const [username, setUsername] = useState<string>('');
   const [page, setPage] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const maxItems = 72;
 
   const { ref, inView } = useInView();
 
@@ -29,7 +30,7 @@ const StartupScreen = () => {
       navigate('/login');
       return;
     }
-  }, []);
+  }, [navigate]);
 
   const fetchStartups = useCallback(async () => {
     if (!hasMore) return;
@@ -60,24 +61,24 @@ const StartupScreen = () => {
       setBookmarkedStartups(bookmarkData);
       setLoading(false);
 
-      if (startupData.length < 12) {
+      if (startupData.length < 12 || startups.length + startupData.length >= maxItems) {
         setHasMore(false);
       }
     } catch (error) {
       console.error('Error fetching startups or bookmarks:', error);
       setLoading(false);
     }
-  }, [page, hasMore]);
+  }, [page, hasMore, startups.length]);
 
   useEffect(() => {
     fetchStartups();
   }, [page, fetchStartups]);
 
   useEffect(() => {
-    if (inView && hasMore) {
+    if (inView && hasMore && startups.length < maxItems) {
       setPage((prev) => prev + 1);
     }
-  }, [inView, hasMore]);
+  }, [inView, hasMore, startups.length]);
 
   const handleToggleBookmark = async (id: string) => {
     try {
