@@ -9,8 +9,8 @@ import {
   Description,
   BookmarkIcon,
 } from './styles';
-import bookMarkNone from '../../assets/bookMarkNone.png';
-import bookMark from '../../assets/bookMark.png';
+import bookMarkNone from '/src/assets/bookMarkNone.png';
+import bookMark from '/src/assets/bookMark.png';
 
 type Props = {
   id: string;

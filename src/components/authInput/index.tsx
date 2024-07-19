@@ -1,5 +1,6 @@
-import { useState, forwardRef, Ref, useEffect } from 'react';
+import { useState, forwardRef, Ref } from 'react';
 import { Container, StyledTextInput, ErrorIcon, ErrorMessage, StyledPasswordInput } from './styles';
+import errorImg from '/src/assets/error.png';
 
 type Props = {
   className?: string;
@@ -75,7 +76,7 @@ const AuthInput = forwardRef<HTMLInputElement, Props>(
               disabled={disabled}
               error={error}
             />
-            {error && <ErrorIcon src="/src/assets/error.png" />}
+            {error && <ErrorIcon src={errorImg} />}
             <ErrorMessage error={error} textColor={getTextColor(error, errorType)}>
               {error || errorType ? errorMessage : ''}
             </ErrorMessage>
@@ -95,7 +96,7 @@ const AuthInput = forwardRef<HTMLInputElement, Props>(
               isPhoneNumber={isTel}
               onKeyDown={onKeyDown}
             />
-            {error && <ErrorIcon src="/src/assets/error.png" />}
+            {error && <ErrorIcon src={errorImg} />}
             <ErrorMessage error={error} textColor={getTextColor(error)}>
               {error ? errorMessage : ''}
             </ErrorMessage>

@@ -9,7 +9,7 @@ import {
   PopupHeader,
   PopupTitle,
 } from './styles';
-import closeIcon from '../../assets/close.png';
+import closeIcon from '/src/assets/close.png';
 import { useEffect, useState } from 'react';
 import { SubmitBtn } from '../submitBtn';
 import { useNavigate } from 'react-router-dom';
