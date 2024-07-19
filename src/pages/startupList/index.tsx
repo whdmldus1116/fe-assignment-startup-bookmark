@@ -5,6 +5,7 @@ import Header from '../../components/header';
 import Card from '../../components/card';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
+import { fetchUserData } from 'utils/fetchUserData';
 
 const StartupScreen = () => {
   const navigate = useNavigate();
@@ -19,16 +20,9 @@ const StartupScreen = () => {
   const { ref, inView } = useInView();
 
   useEffect(() => {
-    try {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      if (user && user.name) {
-        setUsername(user.name);
-      } else {
-        console.error('No username found in localStorage');
-      }
-    } catch (error) {
-      console.error('Error parsing user from localStorage', error);
-    }
+    const name = fetchUserData();
+    setUsername(name);
+
     if (!localStorage.getItem('token')) {
       alert('로그인 해주세요!');
       navigate('/login');
