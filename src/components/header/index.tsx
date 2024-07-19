@@ -13,6 +13,7 @@ import {
 } from './styles';
 import menuIcon from '../../assets/menu.png';
 import closeIcon from '../../assets/close.png';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   isMobile: boolean;
@@ -22,9 +23,7 @@ type Props = {
 };
 
 const Header = ({ isMobile, isLoggedIn, currentPath, username }: Props) => {
-  const handleNavigation = (path: string) => {
-    window.location.href = path;
-  };
+  const navigate = useNavigate();
 
   const navigateToBack = () => {
     window.history.back();
@@ -36,23 +35,17 @@ const Header = ({ isMobile, isLoggedIn, currentPath, username }: Props) => {
         <ProfileIcon>{username?.slice(0, 1)}</ProfileIcon>
         <UserName>{username}</UserName>
       </UserProfile>
-      <MenuIcon src={menuIcon} alt="menu icon" onClick={() => handleNavigation('/menu')} />
+      <MenuIcon src={menuIcon} alt="menu icon" onClick={() => navigate('/menu')} />
     </>
   );
 
   const renderLoggedOutContent = () => (
     <>
-      <HeaderActionButton
-        onClick={() => handleNavigation('/login')}
-        active={currentPath === '/login'}
-      >
+      <HeaderActionButton onClick={() => navigate('/login')} active={currentPath === '/login'}>
         로그인
       </HeaderActionButton>
       <Divider>|</Divider>
-      <HeaderActionButton
-        onClick={() => handleNavigation('/signup')}
-        active={currentPath === '/signup'}
-      >
+      <HeaderActionButton onClick={() => navigate('/signup')} active={currentPath === '/signup'}>
         회원가입
       </HeaderActionButton>
     </>
@@ -73,7 +66,7 @@ const Header = ({ isMobile, isLoggedIn, currentPath, username }: Props) => {
             {currentPath === '/menu' ? (
               <CloseIcon src={closeIcon} alt="close icon" onClick={navigateToBack} />
             ) : (
-              <MenuIcon src={menuIcon} alt="menu icon" onClick={() => handleNavigation('/menu')} />
+              <MenuIcon src={menuIcon} alt="menu icon" onClick={() => navigate('/menu')} />
             )}
           </>
         ) : (
