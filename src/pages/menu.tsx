@@ -3,6 +3,7 @@ import { TitleStyle } from '../components/title/styles';
 import styled from 'styled-components';
 
 const MenuScreen = () => {
+  const isMobile = window.innerWidth < 768;
   const menuItems = [
     { name: '홈', link: '/startupList' },
     { name: '북마크', link: '/bookMark' },
@@ -10,10 +11,14 @@ const MenuScreen = () => {
 
   return (
     <>
-      <Header isLoggedIn={true} currentPath="/menu" username={'꿍꿍꿍'} />
+      <Header isMobile={isMobile} isLoggedIn={true} currentPath="/menu" username={'꿍꿍꿍'} />
       <MenuContainer>
-        <TitleStyle>메뉴</TitleStyle>
-        <hr style={{ width: '100%', borderBottom: '1px solid #e8ecf2' }} />
+        {!isMobile && (
+          <>
+            <TitleStyle>메뉴</TitleStyle>
+            <hr style={{ width: '100%', borderBottom: '1px solid #e8ecf2' }} />
+          </>
+        )}
         {menuItems.map((item, index) => (
           <Item key={index} href={item.link}>
             <span>{item.name}</span>
@@ -29,6 +34,10 @@ const MenuContainer = styled.div`
   flex-direction: column;
   margin-top: 105px;
   align-items: center;
+
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 const Item = styled.a`

@@ -7,19 +7,21 @@ import {
   MenuIcon,
   CloseIcon,
   MobileText,
+  MobileTitle,
+  MobileHeaderContainer,
+  UserProfile,
 } from './styles';
 import menuIcon from '../../assets/menu.png';
 import closeIcon from '../../assets/close.png';
 
 type Props = {
+  isMobile: boolean;
   isLoggedIn: boolean;
   currentPath: string;
   username?: string;
 };
 
-const Header = ({ isLoggedIn, currentPath, username }: Props) => {
-  const isMobile = window.innerWidth < 768;
-
+const Header = ({ isMobile, isLoggedIn, currentPath, username }: Props) => {
   const handleNavigation = (path: string) => {
     window.location.href = path;
   };
@@ -30,8 +32,10 @@ const Header = ({ isLoggedIn, currentPath, username }: Props) => {
 
   const renderLoggedInContent = () => (
     <>
-      <ProfileIcon>{username?.slice(0, 1)}</ProfileIcon>
-      <UserName>{username}</UserName>
+      <UserProfile>
+        <ProfileIcon>{username?.slice(0, 1)}</ProfileIcon>
+        <UserName>{username}</UserName>
+      </UserProfile>
       <MenuIcon src={menuIcon} alt="menu icon" onClick={() => handleNavigation('/menu')} />
     </>
   );
@@ -54,22 +58,33 @@ const Header = ({ isLoggedIn, currentPath, username }: Props) => {
     </>
   );
 
-  const renderMobileHeader = () => (
-    <HeaderContainer>
-      {isLoggedIn ? (
-        currentPath === '/menu' ? (
-          <CloseIcon src={closeIcon} alt="close icon" onClick={navigateToBack} />
+  const renderMobileHeader = () => {
+    const title = {
+      '/menu': `메뉴`,
+      '/startupList': `스타트업 리스트`,
+      '/bookMark': `북마크`,
+    }[currentPath];
+
+    return (
+      <MobileHeaderContainer>
+        {isLoggedIn ? (
+          <>
+            <MobileTitle>{title}</MobileTitle>
+            {currentPath === '/menu' ? (
+              <CloseIcon src={closeIcon} alt="close icon" onClick={navigateToBack} />
+            ) : (
+              <MenuIcon src={menuIcon} alt="menu icon" onClick={() => handleNavigation('/menu')} />
+            )}
+          </>
         ) : (
-          renderLoggedInContent()
-        )
-      ) : (
-        <MobileText>로그인해주세요.</MobileText>
-      )}
-    </HeaderContainer>
-  );
+          <MobileText>로그인해주세요.</MobileText>
+        )}
+      </MobileHeaderContainer>
+    );
+  };
 
   const renderDesktopHeader = () => (
-    <HeaderContainer>
+    <HeaderContainer path={currentPath}>
       {isLoggedIn ? (
         currentPath === '/menu' ? (
           <CloseIcon src={closeIcon} alt="close icon" onClick={navigateToBack} />

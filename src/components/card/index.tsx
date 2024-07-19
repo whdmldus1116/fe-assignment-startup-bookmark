@@ -39,10 +39,16 @@ const Card = ({
     onBookmark(); // 부모 컴포넌트로 북마크 이벤트 전달
   };
 
+  const updatedThumbnailImageUrl = thumbnailImageUrl.replace('i.picsum.photos', 'picsum.photos'); // 링크 변환
+
   return (
     <CardWrapper>
       <Tag>{tag}</Tag>
-      <Image src={thumbnailImageUrl} alt="Background" fallbackColor={thumbnailFallbackColor} />
+      <Image
+        src={updatedThumbnailImageUrl}
+        alt="Background"
+        fallbackColor={thumbnailFallbackColor}
+      />
       <ContentWrapper>
         <Title>{title}</Title>
         <Description>{description}</Description>
