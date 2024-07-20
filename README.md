@@ -22,6 +22,9 @@ yarn dev
 
 ### ⚙️ 사용한 라이브러리
 
+- react ![Yarn](https://img.shields.io/badge/yarn-v18.2.0-blue)
+  - React 라이브러리입니다.
+
 - `axios` ![Yarn](https://img.shields.io/badge/yarn-v1.7.2-blue)
   - API 호출을 위해 사용했습니다.
     
